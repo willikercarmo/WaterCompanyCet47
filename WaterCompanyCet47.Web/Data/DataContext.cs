@@ -12,6 +12,8 @@ namespace WaterCompanyCet47.Web.Data
 
         public DbSet<Equipment> Equipments { get; set; }
 
+        public DbSet<Rate> Rates { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 

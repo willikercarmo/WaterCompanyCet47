@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
+using WaterCompanyCet47.Web.Data.Repositories;
 
 namespace WaterCompanyCet47.Web.Controllers
 {
     public class EquipmentsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IEquipmentRepository equipmentRepository;
 
-        public EquipmentsController(DataContext context)
+        public EquipmentsController(IEquipmentRepository equipmentRepository)
         {
-            _context = context;
+            this.equipmentRepository = equipmentRepository;
         }
 
         // GET: Equipments
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Equipments.ToListAsync());
+            return View(this.equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
         }
 
         // GET: Equipments/Details/5
@@ -33,8 +34,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var equipment = await this.equipmentRepository.GetByIdAsync(id.Value);
             if (equipment == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(equipment);
-                await _context.SaveChangesAsync();
+                await this.equipmentRepository.CreateAsync(equipment);                
                 return RedirectToAction(nameof(Index));
             }
             return View(equipment);
@@ -73,7 +72,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments.FindAsync(id);
+            var equipment = await this.equipmentRepository.GetByIdAsync(id.Value);
             if (equipment == null)
             {
                 return NotFound();
@@ -97,12 +96,11 @@ namespace WaterCompanyCet47.Web.Controllers
             {
                 try
                 {
-                    _context.Update(equipment);
-                    await _context.SaveChangesAsync();
+                    await this.equipmentRepository.UpdateAsync(equipment);              
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EquipmentExists(equipment.Id))
+                    if (!await this.equipmentRepository.ExistsAsync(equipment.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +122,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var equipment = await this.equipmentRepository.GetByIdAsync(id.Value);
             if (equipment == null)
             {
                 return NotFound();
@@ -139,15 +136,17 @@ namespace WaterCompanyCet47.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var equipment = await _context.Equipments.FindAsync(id);
-            _context.Equipments.Remove(equipment);
-            await _context.SaveChangesAsync();
+            var equipment = await this.equipmentRepository.GetByIdAsync(id);
+            await this.equipmentRepository.DeleteAsync(equipment);
+        
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EquipmentExists(int id)
-        {
-            return _context.Equipments.Any(e => e.Id == id);
-        }
+        //private bool EquipmentExists(int id)
+        //{
+        //    //return this.equipmentRepository.ExistsAsync(view.Id);
+            
+        //    //return this.Equipments.Any(e => e.Id == id);
+        //}
     }
 }

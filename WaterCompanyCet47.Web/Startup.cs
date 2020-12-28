@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WaterCompanyCet47.Web.Data;
+using WaterCompanyCet47.Web.Data.Repositories;
 
 namespace WaterCompanyCet47.Web
 {
@@ -32,6 +33,8 @@ namespace WaterCompanyCet47.Web
             });
 
             services.AddTransient<SeedDb>();
+            services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+            services.AddScoped<IRateRepository, RateRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
