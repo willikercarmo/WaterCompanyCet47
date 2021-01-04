@@ -13,10 +13,16 @@ namespace WaterCompanyCet47.Web.Data.Entities
         
         [Display(Name = "Water Metering Number")]
         public string WaterMetering { get; set; }
-        
+
+
+        [Display(Name = "Date of Installation")]
         public DateTime? Installation { get; set; }
        
+
         public string Address { get; set; }
+
+
+        public User User { get; set; }
 
     }
 }

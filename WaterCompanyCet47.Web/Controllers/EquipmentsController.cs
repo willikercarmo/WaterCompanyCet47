@@ -8,17 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Data.Repositories;
+using WaterCompanyCet47.Web.Helpers;
 
 namespace WaterCompanyCet47.Web.Controllers
 {
     public class EquipmentsController : Controller
     {
         private readonly IEquipmentRepository equipmentRepository;
+        private readonly IUserHelper userHelper;
 
-        public EquipmentsController(IEquipmentRepository equipmentRepository)
+
+        public EquipmentsController(IEquipmentRepository equipmentRepository, IUserHelper userHelper)
         {
             this.equipmentRepository = equipmentRepository;
+            this.userHelper = userHelper;
         }
+
+       
 
         // GET: Equipments
         public IActionResult Index()
@@ -58,6 +64,7 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await this.equipmentRepository.CreateAsync(equipment);                
                 return RedirectToAction(nameof(Index));
             }
@@ -96,6 +103,7 @@ namespace WaterCompanyCet47.Web.Controllers
             {
                 try
                 {
+                    equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await this.equipmentRepository.UpdateAsync(equipment);              
                 }
                 catch (DbUpdateConcurrencyException)

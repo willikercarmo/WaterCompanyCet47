@@ -19,6 +19,11 @@
             return this.context.Equipments.OrderBy(e => e.WaterMetering);
         }
 
+        public IEnumerable<User> GetUsers()
+        {
+            return this.context.Users.OrderBy(e => e.FullName);
+        }
+
         public Equipment GetEquipment(int id)
         {
             return this.context.Equipments.Find(id);
