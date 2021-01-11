@@ -29,7 +29,12 @@ namespace WaterCompanyCet47.Web.Data
             await this.userHelper.CheckRoleAsync("Customer");
 
             var user = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
-            if(user == null)
+            var user2 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
+            var user3 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
+            var user4 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
+            var user5 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
+
+            if (user == null)
             {
                 user = new User
                 {
@@ -38,6 +43,42 @@ namespace WaterCompanyCet47.Web.Data
                     Email = "williker.do.carmo@formandos.cinel.pt",
                     UserName = "williker.do.carmo@formandos.cinel.pt",
                     PhoneNumber = "912277715"
+                };
+
+                user2 = new User
+                {
+                    FirstName = "Pedro",
+                    LastName = "Águas",
+                    Email = "pedro@water.com",
+                    UserName = "pedro@water.com",
+                    PhoneNumber = "912277700"
+                };
+
+                user3 = new User
+                {
+                    FirstName = "Ana",
+                    LastName = "Filipa",
+                    Email = "ana@water.com",
+                    UserName = "ana@water.com",
+                    PhoneNumber = "912277701"
+                };
+
+                user4 = new User
+                {
+                    FirstName = "Antonio",
+                    LastName = "Reis",
+                    Email = "antonio@water.com",
+                    UserName = "antonio@water.com",
+                    PhoneNumber = "912277702"
+                };
+
+                user5 = new User
+                {
+                    FirstName = "Filipa",
+                    LastName = "Neves",
+                    Email = "filipa@water.com",
+                    UserName = "filipa@water.com",
+                    PhoneNumber = "912277703"
                 };
 
                 var result = await this.userHelper.AddUserAsync(user, "123456");
@@ -57,10 +98,10 @@ namespace WaterCompanyCet47.Web.Data
 
                 if (!this.context.Equipments.Any()) // se estiver vazia
             {
-                this.AddEquipment("CT10", "Morada 1", user);
-                this.AddEquipment("CT20", "Morada 2", user);
-                this.AddEquipment("CT30", "Morada 3", user);
-                this.AddEquipment("CT40", "Morada 4", user);
+                this.AddEquipment("CT10", "Morada 1", user2);
+                this.AddEquipment("CT20", "Morada 2", user3);
+                this.AddEquipment("CT30", "Morada 3", user4);
+                this.AddEquipment("CT40", "Morada 4", user5);
                 await this.context.SaveChangesAsync(); //vamos gravar
 
             }
