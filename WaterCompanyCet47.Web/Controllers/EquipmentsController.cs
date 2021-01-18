@@ -16,6 +16,7 @@ namespace WaterCompanyCet47.Web.Controllers
     {
         private readonly IEquipmentRepository equipmentRepository;
         private readonly IUserHelper userHelper;
+        
 
 
         public EquipmentsController(IEquipmentRepository equipmentRepository, IUserHelper userHelper)
@@ -29,6 +30,7 @@ namespace WaterCompanyCet47.Web.Controllers
         // GET: Equipments
         public IActionResult Index()
         {
+            
             return View(this.equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
         }
 

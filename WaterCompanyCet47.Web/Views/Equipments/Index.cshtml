@@ -4,50 +4,59 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-info fas fas fa-plus-circle"></a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WaterMetering)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Installation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.WaterMetering)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Installation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FullName)
-            </td>
-            <td align="center">
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary far fa-edit"></a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fas fa-info-circle"></a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fas fa-trash-alt"></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<section class="inner-page">
+    <div class="container">
+        <br /><br />
+        <center><h2>Listagem de Contadores</h2></center>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WaterMetering)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Installation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.User)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WaterMetering)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Installation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.FullName)
+                        </td>
+                        <td align="center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary far fa-edit"></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fas fa-info-circle"></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fas fa-trash-alt"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+  </main><!-- End #main -->
+
+
+

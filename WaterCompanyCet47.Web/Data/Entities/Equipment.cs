@@ -10,17 +10,19 @@ namespace WaterCompanyCet47.Web.Data.Entities
     {
         public int Id { get; set; } // Já assume que é a Chave Primária
 
-        
-        [Display(Name = "Water Metering Number")]
+
+        [Display(Name = "Contador")]
         public string WaterMetering { get; set; }
 
 
-        [Display(Name = "Date of Installation")]
+        [Display(Name = "Data da Instalação")]
         public DateTime? Installation { get; set; }
-       
 
+
+        [Display(Name = "Morada")]
         public string Address { get; set; }
 
+        [Display(Name = "Consumidor")]
 
         public User User { get; set; }
 

@@ -268,7 +268,7 @@ namespace WaterCompanyCet47.Web.Migrations
             modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Equipment", b =>
                 {
                     b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Equipments")
                         .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618

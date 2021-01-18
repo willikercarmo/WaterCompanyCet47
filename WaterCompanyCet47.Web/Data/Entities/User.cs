@@ -18,5 +18,7 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [Display(Name = "Full Name")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
+        public List<Equipment> Equipments { get; set; }
+
     }
 }
