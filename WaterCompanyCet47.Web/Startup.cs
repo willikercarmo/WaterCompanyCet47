@@ -42,10 +42,11 @@
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            //Repositories
             services.AddTransient<SeedDb>();
-            services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<IEquipmentRepository, EquipmentRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
+            
 
             services.Configure<CookiePolicyOptions>(options =>
             {

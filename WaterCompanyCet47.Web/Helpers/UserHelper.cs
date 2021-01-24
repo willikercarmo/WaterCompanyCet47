@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Models;
 
@@ -13,14 +15,17 @@ namespace WaterCompanyCet47.Web.Helpers
         private readonly UserManager<User> userManager; // gestão do utilizador
         private readonly SignInManager<User> signInManager; // trata dos logins
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly DataContext _context;
 
         public UserHelper(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            DataContext context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            _context = context;
         }
 
         public async Task<IdentityResult> AddUserAsync(User user, string password)
@@ -49,6 +54,7 @@ namespace WaterCompanyCet47.Web.Helpers
                 });
             }
         }
+
 
         public async Task<User> GetUserByEmailAsync(string email)
         {

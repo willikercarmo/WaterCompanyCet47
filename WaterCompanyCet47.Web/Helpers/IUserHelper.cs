@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace WaterCompanyCet47.Web.Helpers
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
 
-
+       
 
     }
 }

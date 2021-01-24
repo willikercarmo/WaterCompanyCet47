@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterCompanyCet47.Web", "WaterCompanyCet47.Web\WaterCompanyCet47.Web.csproj", "{2157A851-DC79-4CC2-AEE4-8D3CF098E328}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaterCompanyCet47.Web", "WaterCompanyCet47.Web\WaterCompanyCet47.Web.csproj", "{2157A851-DC79-4CC2-AEE4-8D3CF098E328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterCompanyCet47.Common", "WaterCompanyCet47.Common\WaterCompanyCet47.Common.csproj", "{7A1D77BC-FB3F-44CC-8F0C-CA83AB93D739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaterCompanyCet47.Common", "WaterCompanyCet47.Common\WaterCompanyCet47.Common.csproj", "{7A1D77BC-FB3F-44CC-8F0C-CA83AB93D739}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

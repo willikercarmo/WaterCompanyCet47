@@ -129,6 +129,81 @@ namespace WaterCompanyCet47.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Consumption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ConsumptionDate");
+
+                    b.Property<int>("EquipmentId");
+
+                    b.Property<int?>("ItemsId");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.Property<decimal?>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("ItemsId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Consumptions");
+                });
+
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("ConsumptionValue");
+
+                    b.Property<int>("EquipmentId");
+
+                    b.Property<string>("ForMonth");
+
+                    b.Property<string>("ForYear");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.ToTable("ConsumptionDetails");
+                });
+
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetailTemp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("ConsumptionValue");
+
+                    b.Property<int>("EquipmentId");
+
+                    b.Property<string>("ForMonth");
+
+                    b.Property<string>("ForYear");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ConsumptionDetailTemps");
+                });
+
             modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Equipment", b =>
                 {
                     b.Property<int>("Id")
@@ -139,7 +214,8 @@ namespace WaterCompanyCet47.Web.Migrations
 
                     b.Property<DateTime?>("Installation");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.Property<string>("WaterMetering");
 
@@ -148,21 +224,6 @@ namespace WaterCompanyCet47.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Equipments");
-                });
-
-            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Rate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RateScale");
-
-                    b.Property<double>("UnitPrice");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rates");
                 });
 
             modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.User", b =>
@@ -265,11 +326,50 @@ namespace WaterCompanyCet47.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Consumption", b =>
+                {
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetail", "Items")
+                        .WithMany()
+                        .HasForeignKey("ItemsId");
+
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetail", b =>
+                {
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetailTemp", b =>
+                {
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Equipment", b =>
                 {
                     b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
                         .WithMany("Equipments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

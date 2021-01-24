@@ -12,13 +12,13 @@ namespace WaterCompanyCet47.Web.Data
     {
         private readonly DataContext context;
         private readonly IUserHelper userHelper;
-      
+
 
         public SeedDb(DataContext context, IUserHelper userHelper)
         {
             this.context = context;
             this.userHelper = userHelper;
-            
+
         }
 
         public async Task SeedAsync()
@@ -82,7 +82,7 @@ namespace WaterCompanyCet47.Web.Data
                 };
 
                 var result = await this.userHelper.AddUserAsync(user, "123456");
-                if(result != IdentityResult.Success)
+                if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
@@ -96,12 +96,12 @@ namespace WaterCompanyCet47.Web.Data
                 await this.userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
-                if (!this.context.Equipments.Any()) // se estiver vazia
+            if (!this.context.Equipments.Any()) // se estiver vazia
             {
-                this.AddEquipment("CT10", "Morada 1", user2);
-                this.AddEquipment("CT20", "Morada 2", user3);
-                this.AddEquipment("CT30", "Morada 3", user4);
-                this.AddEquipment("CT40", "Morada 4", user5);
+                this.AddEquipment("CT111111111", "Morada 1", user2);
+                this.AddEquipment("CT222222222", "Morada 2", user3);
+                this.AddEquipment("CT333333333", "Morada 3", user4);
+                this.AddEquipment("CT444444444", "Morada 4", user5);
                 await this.context.SaveChangesAsync(); //vamos gravar
 
             }

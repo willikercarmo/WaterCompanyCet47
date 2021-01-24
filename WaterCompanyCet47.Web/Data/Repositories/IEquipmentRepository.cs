@@ -9,8 +9,8 @@
     public interface IEquipmentRepository : IGenericRepository<Equipment>
     {
 
-        
 
+        IEnumerable<SelectListItem> GetComboEquipments(); 
     }
 
 }
