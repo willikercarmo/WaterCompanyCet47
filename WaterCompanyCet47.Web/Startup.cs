@@ -46,7 +46,8 @@
             services.AddTransient<SeedDb>();
             services.AddScoped<IEquipmentRepository, EquipmentRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
-            
+            services.AddScoped<IConsumptionRepository, ConsumptionRepository>();
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
