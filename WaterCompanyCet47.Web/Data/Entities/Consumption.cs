@@ -42,6 +42,8 @@ namespace WaterCompanyCet47.Web.Data.Entities
 
 
         //Valor a Pagar
+        //TODO: Fazer um AddMigrations
+        [Display(Name = "Valor a Pagar")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public decimal? Value { get; set; }
 

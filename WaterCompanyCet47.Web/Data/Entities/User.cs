@@ -9,13 +9,16 @@ namespace WaterCompanyCet47.Web.Data.Entities
 {
     public class User : IdentityUser
     {
-
+        //Primeiro Nome
+        [Display(Name = "Primeiro Nome")]
         public string FirstName { get; set; }
 
+        //Apelido
+        [Display(Name = "Apelido")]
         public string LastName { get; set; }
 
-
-        [Display(Name = "Full Name")]
+        //Cliente
+        [Display(Name = "Cliente")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
         public List<Equipment> Equipments { get; set; }
