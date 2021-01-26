@@ -18,15 +18,11 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [Required]
         public Equipment Equipment { get; set; }
 
-        //Mês
-        [Display(Name = "Mês")]
+        //Período
+        [Display(Name = "Período Mensal")]
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
-        public string ForMonth { get; set; }
+        public DateTime? ForMonth { get; set; }
 
-        //Ano
-        [Display(Name = "Ano")]
-        [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
-        public string ForYear { get; set; }
 
         //Consumo em m³
         [Display(Name = "Consumo em M³")]

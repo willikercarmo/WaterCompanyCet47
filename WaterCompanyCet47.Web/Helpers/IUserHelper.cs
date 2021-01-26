@@ -29,7 +29,7 @@ namespace WaterCompanyCet47.Web.Helpers
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
 
-       
+        IEnumerable<SelectListItem> GetComboUsers();
 
     }
 }

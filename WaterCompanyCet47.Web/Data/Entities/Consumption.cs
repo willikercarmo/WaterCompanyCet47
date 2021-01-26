@@ -27,14 +27,16 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
         public DateTime ConsumptionDate { get; set; }
 
-        //Mês
-        [Display(Name = "Mês")]
-        public string ForMonth { get { return this.Items == null ? "" : this.Items.ForMonth; } }
+        ////Mês
+        //[Display(Name = "Mês")]
+        //public string ForMonth { get { return this.Items == null ? "" : this.Items.ForMonth; } }
 
-        //Ano
-        [Display(Name = "Ano")]
-        public string ForYear { get { return this.Items == null ? "" : this.Items.ForYear; } }
+        //Período
+        [Display(Name = "Período Mensal")]
+        [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime? ForMonth { get { return this.Items.ForMonth; } }
 
+      
         //Consumo em M³
         [Display(Name = "Consumo em m³")]
         [DisplayFormat(DataFormatString = "{0:N3}")]

@@ -9,10 +9,15 @@ namespace WaterCompanyCet47.Web.Models
 {
     public class AddConsumptionViewModel
     {
+        //User
+        [Display(Name = "Consumidor")]
+        [Range(1, int.MaxValue, ErrorMessage = "Você precisa selecionar 1 consumidor.")] // o valor tem que estar entre o valor 1 até o máximo que quiser
+        public int UserId { get; set; }
 
+        //User
         [Display(Name = "Contador")]
         [Range(1, int.MaxValue, ErrorMessage = "Você precisa selecionar 1 contador.")] // o valor tem que estar entre o valor 1 até o máximo que quiser
-        public string ContadorId { get; set; }
+        public int EquipmentId { get; set; }
 
         [Range(0.0001, double.MaxValue, ErrorMessage = "A quantidade deve ser um número maior que zero.")]
         [Display(Name = "Consumo em M³")]
@@ -21,9 +26,14 @@ namespace WaterCompanyCet47.Web.Models
 
         [Display(Name = "Período")]
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}")]
-        public DateTime ForPeriod { get; set; }
+        public DateTime? ForPeriod { get; set; }
 
-        public IEnumerable<SelectListItem> Equipments { get; set; } // lista com equipamentos
+
+        // lista de users
+        public IEnumerable<SelectListItem> Users { get; set; }
+
+        // lista de equipamentos
+        public IEnumerable<SelectListItem> Equipments { get; set; } 
 
        
 
