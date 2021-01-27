@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,51 @@ namespace WaterCompanyCet47.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserHelper userHelper;
+        private readonly IUserHelper _userHelper;
+   
 
         public AccountController(IUserHelper userHelper)
         {
-            this.userHelper = userHelper;
+            _userHelper = userHelper;
+           
+        }
+
+        public IActionResult Index() // Programação assincrono: permite mexer no programa mesmo estando 
+        {
+            return View(_userHelper.GetAll().OrderBy(u => u.FullName)); //ordenar por nome
+        }
+
+        //[Authorize(Roles = "Admin")]
+        // GET: Products/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            var view = this.ToUserViewModel(user);
+
+            return View(view);
+        }
+
+        private UserViewModel ToUserViewModel(User user)
+        {
+            return new UserViewModel
+            {
+                Id = user.ToString(),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                UserName = user.UserName
+            };
         }
 
         public IActionResult Login()
@@ -34,7 +75,7 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await this.userHelper.LoginAsync(model);
+                var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
                     if (this.Request.Query.Keys.Contains("ReturnUrl"))
@@ -52,10 +93,11 @@ namespace WaterCompanyCet47.Web.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await this.userHelper.LogoutAsync();
+            await _userHelper.LogoutAsync();
             return this.RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Register()
         {
             return this.View();
@@ -66,7 +108,7 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = await this.userHelper.GetUserByEmailAsync(model.UserName);
+                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
                 if (user == null)
                 {
                     user = new User
@@ -77,29 +119,15 @@ namespace WaterCompanyCet47.Web.Controllers
                         UserName = model.UserName
                     };
 
-                    var result = await this.userHelper.AddUserAsync(user, model.Password);
+                    var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
-                        this.ModelState.AddModelError(string.Empty, "O cliente user couldn't be created.");
+                        this.ModelState.AddModelError(string.Empty, "O cliente não pode ser criado");
                         return this.View(model);
-                        
+
                     }
 
-                    var loginViewModel = new LoginViewModel
-                    {
-                        Password = model.Password,
-                        RememberMe = false,
-                        Username = model.UserName
-                    };
-
-                    var result2 = await this.userHelper.LoginAsync(loginViewModel);
-
-                    if (result2.Succeeded)
-                    {
-                        return this.RedirectToAction("Index", "Home");
-                    }
-
-                    this.ModelState.AddModelError(string.Empty, "The user couldn't be login.");
+                    ViewBag.Message = string.Format("O Consumidor foi inserido com sucesso.");
                     return this.View(model);
                 }
 
@@ -111,7 +139,7 @@ namespace WaterCompanyCet47.Web.Controllers
 
         public async Task<IActionResult> ChangeUser()
         {
-            var user = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             var model = new ChangeUserViewModel();
 
             if (user != null)
@@ -128,12 +156,12 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 if (user != null)
                 {
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
-                    var response = await this.userHelper.UpdateUserAsync(user);
+                    var response = await _userHelper.UpdateUserAsync(user);
                     if (response.Succeeded)
                     {
                         this.ViewBag.UserMessage = "User update.";
@@ -163,10 +191,10 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 if (user != null)
                 {
-                    var result = await this.userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
                         return this.RedirectToAction("ChangeUser");

@@ -55,6 +55,16 @@ namespace WaterCompanyCet47.Web.Helpers
             }
         }
 
+        public IQueryable<User> GetAll()
+        {
+            return _context.Set<User>();
+        }
+
+        public async Task<User> GetByIdAsync(string id)
+        {
+            return await _context.Set<User>().FindAsync(id);
+        }
+
         public IEnumerable<SelectListItem> GetComboUsers()
         {
             var list = _context.Users.Select(u => new SelectListItem

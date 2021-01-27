@@ -20,11 +20,17 @@
             _userHelper = userHelper;
         }
 
-        public async Task AddEquipmentToEquipAsync(AddEquipmentViewModel model)
+        public async Task AddEquipmentToEquipAsync(AddEquipmentViewModel model, string username)
         {
             //var equipment = await _context.Equipments.FindAsync(model.WaterMetering);
-                        
-            //if (equipment == null)
+           
+            var userlogado = await _userHelper.GetUserByEmailAsync(username);
+            if (userlogado == null)
+            {
+                return;
+            }
+
+            if (await _userHelper.IsUserInRoleAsync(userlogado, "Admin"))
             {
                 var user = await _context.Users.FindAsync(model.UserId);
 
@@ -37,9 +43,13 @@
                 };
 
                 _context.Equipments.Add(equipment);
+
+
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
+            return;
+               
         }
 
         public IEnumerable<SelectListItem> GetComboEquipments()

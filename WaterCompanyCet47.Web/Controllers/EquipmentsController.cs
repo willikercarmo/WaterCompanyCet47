@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,7 @@ namespace WaterCompanyCet47.Web.Controllers
             return View(equipment);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Equipments/Create
         public IActionResult Create()
         {
@@ -60,6 +62,7 @@ namespace WaterCompanyCet47.Web.Controllers
             };
 
             return View(model);
+
         }
 
         // POST: Equipments/Create
@@ -81,12 +84,16 @@ namespace WaterCompanyCet47.Web.Controllers
         //    return View(equipment);
         //}
 
+
         [HttpPost]
         public async Task<IActionResult> Create(AddEquipmentViewModel model)
         {
             if (this.ModelState.IsValid)
             {
-                await _equipmentRepository.AddEquipmentToEquipAsync(model);
+
+                await _equipmentRepository.AddEquipmentToEquipAsync(model, this.User.Identity.Name);
+
+
                 return this.RedirectToAction("Create");
             }
 

@@ -13,7 +13,7 @@
 
         IEnumerable<SelectListItem> GetComboEquipments();
 
-        Task AddEquipmentToEquipAsync(AddEquipmentViewModel model);
+        Task AddEquipmentToEquipAsync(AddEquipmentViewModel model, string username);
 
     }
 

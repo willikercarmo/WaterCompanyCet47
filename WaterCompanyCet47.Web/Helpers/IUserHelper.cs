@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Models;
 
@@ -30,6 +31,10 @@ namespace WaterCompanyCet47.Web.Helpers
         Task<bool> IsUserInRoleAsync(User user, string roleName);
 
         IEnumerable<SelectListItem> GetComboUsers();
+
+        IQueryable<User> GetAll();
+
+        Task<User> GetByIdAsync(string id);
 
     }
 }
