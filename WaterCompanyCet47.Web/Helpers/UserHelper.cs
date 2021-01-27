@@ -59,8 +59,8 @@ namespace WaterCompanyCet47.Web.Helpers
         {
             var list = _context.Users.Select(u => new SelectListItem
             {
-                Text = u.FullName,
-                Value = u.Id.ToString()
+                Text = u.UserName,
+                Value = u.Id.ToString(),
             }).ToList();
 
             list.Insert(0, new SelectListItem

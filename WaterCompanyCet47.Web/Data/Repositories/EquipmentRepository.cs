@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using WaterCompanyCet47.Web.Helpers;
+    using WaterCompanyCet47.Web.Models;
 
     public class EquipmentRepository : GenericRepository<Equipment>, IEquipmentRepository
     {
@@ -17,6 +18,28 @@
         {
             _context = context;
             _userHelper = userHelper;
+        }
+
+        public async Task AddEquipmentToEquipAsync(AddEquipmentViewModel model)
+        {
+            //var equipment = await _context.Equipments.FindAsync(model.WaterMetering);
+                        
+            //if (equipment == null)
+            {
+                var user = await _context.Users.FindAsync(model.UserId);
+
+                var equipment = new Equipment
+                {
+                    WaterMetering = model.WaterMetering,
+                    Installation = model.Installation,
+                    Address = model.Address,
+                    User = user
+                };
+
+                _context.Equipments.Add(equipment);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<SelectListItem> GetComboEquipments()

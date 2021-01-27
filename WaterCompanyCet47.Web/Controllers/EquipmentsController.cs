@@ -10,19 +10,20 @@ using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Data.Repositories;
 using WaterCompanyCet47.Web.Helpers;
 using WaterCompanyCet47.Web.Migrations;
+using WaterCompanyCet47.Web.Models;
 
 namespace WaterCompanyCet47.Web.Controllers
 {
     public class EquipmentsController : Controller
     {
-        private readonly IEquipmentRepository equipmentRepository;
-        private readonly IUserHelper userHelper;
+        private readonly IEquipmentRepository _equipmentRepository;
+        private readonly IUserHelper _userHelper;
 
 
         public EquipmentsController(IEquipmentRepository equipmentRepository, IUserHelper userHelper)
         {
-            this.equipmentRepository = equipmentRepository;
-            this.userHelper = userHelper;
+            _equipmentRepository = equipmentRepository;
+            _userHelper = userHelper;
         }
 
 
@@ -30,7 +31,7 @@ namespace WaterCompanyCet47.Web.Controllers
         // GET: Equipments
         public IActionResult Index()
         {
-            return View(this.equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
+            return View(_equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
         }
 
         // GET: Equipments/Details/5
@@ -41,7 +42,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            var equipment = await this.equipmentRepository.GetByIdAsync(id.Value);
+            var equipment = await _equipmentRepository.GetByIdAsync(id.Value);
             if (equipment == null)
             {
                 return NotFound();
@@ -53,27 +54,43 @@ namespace WaterCompanyCet47.Web.Controllers
         // GET: Equipments/Create
         public IActionResult Create()
         {
-           
-            return View();
+            var model = new AddEquipmentViewModel
+            {
+                Users = _userHelper.GetComboUsers()
+            };
+
+            return View(model);
         }
 
         // POST: Equipments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,WaterMetering,Installation,Address")] Equipment equipment)
-        {
-            
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,WaterMetering,Installation,Address")] Equipment equipment)
+        //{
 
-            if (ModelState.IsValid)
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        //equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+        //        equipment.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+        //        await _equipmentRepository.CreateAsync(equipment);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(equipment);
+        //}
+
+        [HttpPost]
+        public async Task<IActionResult> Create(AddEquipmentViewModel model)
+        {
+            if (this.ModelState.IsValid)
             {
-                //equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                await this.equipmentRepository.CreateAsync(equipment);
-                return RedirectToAction(nameof(Index));
+                await _equipmentRepository.AddEquipmentToEquipAsync(model);
+                return this.RedirectToAction("Create");
             }
-            return View(equipment);
+
+            return this.View(model);
         }
 
         // GET: Equipments/Edit/5
@@ -84,7 +101,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            var equipment = await this.equipmentRepository.GetByIdAsync(id.Value);
+            var equipment = await _equipmentRepository.GetByIdAsync(id.Value);
             if (equipment == null)
             {
                 return NotFound();
@@ -108,12 +125,12 @@ namespace WaterCompanyCet47.Web.Controllers
             {
                 try
                 {
-                    equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                    await this.equipmentRepository.UpdateAsync(equipment);
+                    equipment.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                    await _equipmentRepository.UpdateAsync(equipment);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await this.equipmentRepository.ExistsAsync(equipment.Id))
+                    if (!await _equipmentRepository.ExistsAsync(equipment.Id))
                     {
                         return NotFound();
                     }
@@ -135,7 +152,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            var equipment = await this.equipmentRepository.GetByIdAsync(id.Value);
+            var equipment = await _equipmentRepository.GetByIdAsync(id.Value);
             if (equipment == null)
             {
                 return NotFound();
@@ -149,8 +166,8 @@ namespace WaterCompanyCet47.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var equipment = await this.equipmentRepository.GetByIdAsync(id);
-            await this.equipmentRepository.DeleteAsync(equipment);
+            var equipment = await _equipmentRepository.GetByIdAsync(id);
+            await _equipmentRepository.DeleteAsync(equipment);
 
             return RedirectToAction(nameof(Index));
         }

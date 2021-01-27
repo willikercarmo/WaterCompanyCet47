@@ -80,8 +80,9 @@ namespace WaterCompanyCet47.Web.Controllers
                     var result = await this.userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
-                        this.ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                        this.ModelState.AddModelError(string.Empty, "O cliente user couldn't be created.");
                         return this.View(model);
+                        
                     }
 
                     var loginViewModel = new LoginViewModel
