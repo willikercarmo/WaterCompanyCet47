@@ -8,7 +8,7 @@
 
 <section class="inner-page">
     <div class="container">
-        <br />
+        <br /><br />
         <center><h2>Registar Contador</h2></center>
 
         <h4>Contador</h4>
@@ -37,9 +37,10 @@
                         <select asp-for="UserId" asp-items="Model.Users" class="form-control"></select>
                         <span asp-validation-for="UserId" class="text-danger"></span>
                     </div>
+                    <br />
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-success">Back to List</a>
+                        <input type="submit" value="Criar Contador" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-success">Listagem de Contador</a>
                     </div>
                 </form>
             </div>

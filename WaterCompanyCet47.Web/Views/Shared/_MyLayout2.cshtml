@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Bikin Bootstrap Template - Index</title>
+    <title>Water Company - Index</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -44,9 +44,10 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
 
-            <h1 class="logo me-auto"><a href="index.html"><i class="fas fa-tint"></i> WaterCompany</a></h1>
+            <h1 class="logo me-auto" style="font-size: 15px"><a href="index.html"><i class="fas fa-tint"></i> WaterCompany</a></h1>
+            @*<a href="index.html" class="logo me-auto"><img src="~/tema/assets/img/logo.png" alt="" class="img-fluid"></a>*@
             <!-- Uncomment below if you prefer to use an image logo -->
-            @*<a href="index.html" class="logo me-auto"><img src="~/layout/img/logo.png" alt="" class="img-fluid"></a>*@
+
 
             <nav class="nav-menu d-none d-lg-block">
                 <ul>
@@ -56,20 +57,66 @@
                     @*<li><a href="#portfolio">Portfolio</a></li>
                         <li><a href="#team">Team</a></li>
                         <li><a href="#pricing">Pricing</a></li>*@
+
                     <li class="drop-down">
-                        <a href="">Contador</a>
+                        <a href="">Área do Administrador</a>
                         <ul>
-                            <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar Contadores</a></li>
-                            <li><a asp-area="" asp-controller="Equipments" asp-action="Create">Registar Contador</a></li>
+                            <li class="drop-down">
+                                <a href="#">Cliente</a>
+                                <ul>
+                                    <li><a href="#">Listar todos Clientes</a></li>
+                                    <li><a href="#">Registar Cliente</a></li>
+                                    <li><a href="#">Atualizar Dados do Cliente</a></li>
+                                </ul>
+                            </li>
+                            <li class="drop-down">
+                                <a href="#">Contador</a>
+                                <ul>
+                                    <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar todos Contadores</a></li>
+                                    <li><a asp-area="" asp-controller="Equipments" asp-action="Create">Registar Contador</a></li>
+                                </ul>
+                            </li>
+                            @*<li><a href="#">Drop Down 3</a></li>*@
                         </ul>
                     </li>
+
                     <li class="drop-down">
-                        <a href="">Consumidor</a>
+                        <a href="">Área do Cliente</a>
                         <ul>
-                            <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar Consumidores</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="Register">Registar Consumidor</a></li>
+                            <li class="drop-down">
+                                <a href="#">Cliente</a>
+                                <ul>
+                                    <li><a href="#">Ver Dados</a></li>
+                                    <li><a href="#">Registar Cliente</a></li>
+                                    <li><a href="#">Atualizar Dados do Cliente</a></li>
+                                </ul>
+                            </li>
+                            <li class="drop-down">
+                                <a href="#">Contador</a>
+                                <ul>
+                                    <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar todos Contadores</a></li>
+                                    <li><a asp-area="" asp-controller="Equipments" asp-action="Create">Registar Contador</a></li>
+                                </ul>
+                            </li>
+                            @*<li><a href="#">Drop Down 3</a></li>*@
                         </ul>
                     </li>
+
+
+                    @*<li class="drop-down">
+                            <a href="">Contador</a>
+                            <ul>
+                                <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar Contadores</a></li>
+                                <li><a asp-area="" asp-controller="Equipments" asp-action="Create">Registar Contador</a></li>
+                            </ul>
+                        </li>
+                        <li class="drop-down">
+                            <a href="">Consumidor</a>
+                            <ul>
+                                <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar Consumidores</a></li>
+                                <li><a asp-area="" asp-controller="Account" asp-action="Register">Registar Consumidor</a></li>
+                            </ul>
+                        </li>*@
                     @*<li class="drop-down">
                             <a href="">Drop Down</a>
                             <ul>
@@ -91,12 +138,17 @@
                         </li>*@
                     @*<li><a href="#contact">Contact</a></li>*@
 
-
                     @if (this.User.Identity.IsAuthenticated)
                     {
-                        <a class="get-started-btn scrollto" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
-                        <a class="get-started-btn scrollto" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                        @*<a class="get-started-btn scrollto">Get Started</a>*@
+
+                        <li class="drop-down">
+                            <a class="get-started-btn scrollto">@this.User.Identity.Name</a>
+                            <ul>
+                                <li>
+                                    <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
                     }
                     else
                     {
@@ -104,8 +156,9 @@
                         <a class="get-started-btn scrollto" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                     }
 
-
                 </ul>
+
+
             </nav>
         </div>
     </header><!-- End Header -->
@@ -123,43 +176,30 @@
                 <div class="row">
 
                     <div class="col-lg-3 col-md-6 footer-contact">
-                        <h3>Bikin</h3>
+                        <img src="~/tema/assets/img/logo.png" width="250px" />
                         <p>
-                            A108 Adam Street <br>
-                            New York, NY 535022<br>
-                            United States <br><br>
-                            <strong>Phone:</strong> +1 5589 55488 55<br>
-                            <strong>Email:</strong> info@example.com<br>
+                            Rua do Jau, 1300-312 Lisboa,<br>
+                            Portugal <br>
+                            <strong>Telefone Geral:</strong> +351 000 000 000<br>
+                            <strong>Telefone Assistência:</strong> +351 000 000 000<br>
+                            <strong>Email:</strong> geral@watercompany.pt<br>
                         </p>
                     </div>
 
                     <div class="col-lg-2 col-md-6 footer-links">
-                        <h4>Useful Links</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                        </ul>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3113.6829585881687!2d-9.190358348903443!3d38.70212627950111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ecd1cdf51dba5%3A0xaaa77b600a1271fe!2sCINEL%20-%20Centro%20de%20Forma%C3%A7%C3%A3o%20Profissional%20da%20Ind%C3%BAstria%20Electr%C3%B3nica%2C%20Energia%2C%20Telecomunica%C3%A7%C3%B5es%20e%20Tecnologias%20da%20Informa%C3%A7%C3%A3o!5e0!3m2!1spt-BR!2spt!4v1610986753277!5m2!1spt-BR!2spt" width="450" height="200" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Our Services</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-4 col-md-6 footer-newsletter">
-                        <h4>Join Our Newsletter</h4>
-                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                        <h4>Subscreva à nossa Newsletter</h4>
+                        <p>Receba os nossos boletins informativos e promocionais no seu e-mail!</p>
                         <form action="" method="post">
-                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                            <input type="email" name="email"><input type="submit" value="Subscrever">
                         </form>
                     </div>
 
@@ -171,21 +211,21 @@
 
             <div class="me-md-auto text-center text-md-start">
                 <div class="copyright">
-                    &copy; Copyright <strong><span>Bikin</span></strong>. All Rights Reserved
+                    &copy; Copyright <strong><span>WaterCompany</span></strong>. Todos os direitos registados
                 </div>
                 <div class="credits">
                     <!-- All the links in the footer should remain intact. -->
                     <!-- You can delete the links only if you purchased the pro version. -->
                     <!-- Licensing information: https://bootstrapmade.com/license/ -->
                     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bikin-free-simple-landing-page-template/ -->
-                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                    Programação MVC by <strong>Williker Carmo - CET47</strong>
+                    <br><strong><i>Web-Site realizado para fins académicos.</i></strong>
                 </div>
             </div>
             <div class="social-links text-center text-md-right pt-3 pt-md-0">
                 <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
                 <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
                 <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
                 <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
             </div>
         </div>
@@ -207,7 +247,7 @@
     <!-- Template Main JS File -->
     <script src="~/tema/assets/js/main.js"></script>
 
-
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>

@@ -14,8 +14,11 @@ namespace WaterCompanyCet47.Web.Helpers
     {
         Task<User> GetUserByEmailAsync(string email);
 
+        Task<User> GetUserByIdAsync(string id);
+
         Task<IdentityResult> AddUserAsync(User user, string password);
 
+     
         Task<SignInResult> LoginAsync(LoginViewModel model);
 
         Task LogoutAsync();
@@ -35,6 +38,12 @@ namespace WaterCompanyCet47.Web.Helpers
         IQueryable<User> GetAll();
 
         Task<User> GetByIdAsync(string id);
+
+        Task<IdentityResult> UpdateAsync(User user);
+
+
+
+
 
     }
 }

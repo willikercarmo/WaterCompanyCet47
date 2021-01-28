@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Helpers;
 using WaterCompanyCet47.Web.Models;
@@ -14,12 +16,15 @@ namespace WaterCompanyCet47.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
-   
 
-        public AccountController(IUserHelper userHelper)
+        private readonly DataContext _dataContext;
+
+        public AccountController(IUserHelper userHelper, DataContext dataContext)
         {
             _userHelper = userHelper;
-           
+            _dataContext = dataContext;
+
+
         }
 
         public IActionResult Index() // Programação assincrono: permite mexer no programa mesmo estando 
@@ -27,7 +32,7 @@ namespace WaterCompanyCet47.Web.Controllers
             return View(_userHelper.GetAll().OrderBy(u => u.FullName)); //ordenar por nome
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -57,6 +62,66 @@ namespace WaterCompanyCet47.Web.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 UserName = user.UserName
+            };
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UserViewModel model)
+        {
+
+            var user = await _userHelper.GetByIdAsync(model.Id);
+
+            if (user != null)
+            {
+                var result = await _userHelper.UpdateUserAsync(user);
+                if (result.Succeeded)
+                {
+                    return this.RedirectToAction("Index");
+                }
+                else
+                {
+                    this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
+                }
+            }
+            else
+            {
+                this.ModelState.AddModelError(string.Empty, "User no found.");
+            }
+
+            //_dataContext.Users.Add(model);
+
+            //_dataContext.SaveChanges();
+
+            //_dataContext.Entry(model).State = EntityState.Modified;
+
+            //try
+            //{
+            //    _dataContext.SaveChanges();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!User(User.Identity.))
+            //    {
+
+            //    }
+            //    throw;
+            //}
+
+            return this.RedirectToAction("Edit", "Account");
+
+
+        }
+
+        private User ToUser(UserViewModel view)
+        {
+            return new User
+            {
+                Id = view.Id,
+                FirstName = view.FirstName,
+                LastName = view.LastName,
+                Email = view.Email,
+                UserName = view.UserName
             };
         }
 

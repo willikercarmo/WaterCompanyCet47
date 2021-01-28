@@ -12,7 +12,7 @@ namespace WaterCompanyCet47.Web.Helpers
 {
     public class UserHelper : IUserHelper
     {
-        private readonly UserManager<User> userManager; // gestão do utilizador
+        private readonly UserManager<User> _userManager; // gestão do utilizador
         private readonly SignInManager<User> signInManager; // trata dos logins
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly DataContext _context;
@@ -22,7 +22,7 @@ namespace WaterCompanyCet47.Web.Helpers
             RoleManager<IdentityRole> roleManager,
             DataContext context)
         {
-            this.userManager = userManager;
+            _userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             _context = context;
@@ -30,17 +30,17 @@ namespace WaterCompanyCet47.Web.Helpers
 
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
-            return await this.userManager.CreateAsync(user, password);
+            return await _userManager.CreateAsync(user, password);
         }
 
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
-            await this.userManager.AddToRoleAsync(user, roleName);
+            await _userManager.AddToRoleAsync(user, roleName);
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
         {
-            return await this.userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         }
 
         public async Task CheckRoleAsync(string roleName)
@@ -54,6 +54,8 @@ namespace WaterCompanyCet47.Web.Helpers
                 });
             }
         }
+
+        
 
         public IQueryable<User> GetAll()
         {
@@ -85,12 +87,17 @@ namespace WaterCompanyCet47.Web.Helpers
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await this.userManager.FindByEmailAsync(email);
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<User> GetUserByIdAsync(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
-            return await this.userManager.IsInRoleAsync(user, "Admin");
+            return await _userManager.IsInRoleAsync(user, "Admin");
         }
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
@@ -107,9 +114,16 @@ namespace WaterCompanyCet47.Web.Helpers
             await this.signInManager.SignOutAsync();
         }
 
+        public async Task<IdentityResult> UpdateAsync(User user)
+        {
+            return await _userManager.UpdateAsync(user);
+        }
+
         public async Task<IdentityResult> UpdateUserAsync(User user)
         {
-            return await this.userManager.UpdateAsync(user);
+            return await _userManager.UpdateAsync(user);
         }
+
+        
     }
 }

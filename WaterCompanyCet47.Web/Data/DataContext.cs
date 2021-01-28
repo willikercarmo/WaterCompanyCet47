@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WaterCompanyCet47.Web.Data.Entities;
 
@@ -46,6 +47,9 @@ namespace WaterCompanyCet47.Web.Data
             base.OnModelCreating(modelBuilder);
         }
 
-
+        internal object Entity(ClaimsPrincipal user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
