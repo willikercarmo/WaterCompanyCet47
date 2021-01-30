@@ -13,13 +13,16 @@ namespace WaterCompanyCet47.Web.Controllers
     {
         private readonly IConsumptionRepository _consumptionRepository;
         private readonly IUserHelper _userHelper;
+        private readonly IEquipmentRepository _equipmentRepository;
 
         public ConsumptionsController(
             IConsumptionRepository consumptionRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IEquipmentRepository equipmentRepository)
         {
             _consumptionRepository = consumptionRepository;
             _userHelper = userHelper;
+            _equipmentRepository = equipmentRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -40,7 +43,9 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             var model = new AddConsumptionViewModel
             {
-                Users = _userHelper.GetComboUsers()
+                Users = _userHelper.GetComboUsers(),
+
+                Equipments = _equipmentRepository.GetComboEquipments()
             };
 
             return View(model);

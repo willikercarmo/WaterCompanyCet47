@@ -62,7 +62,7 @@
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Selecione um contador)",
+                Text = "(Selecione um Contador)",
                 Value = "0"
             });
 

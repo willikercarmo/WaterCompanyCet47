@@ -1,0 +1,50 @@
+﻿@model WaterCompanyCet47.Web.Data.Entities.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<main id="main">
+    <section class="inner-page">
+        <div class="container">
+            <br /><br />
+                  <center><h2>Detalhes do Cliente</h2></center>
+
+            <div>
+                <h4>Consumidor</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                </dl>
+            </div>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+                <a asp-action="Index" class="btn btn-success">Voltar</a>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->

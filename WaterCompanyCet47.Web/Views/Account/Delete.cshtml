@@ -1,0 +1,48 @@
+﻿@model WaterCompanyCet47.Web.Data.Entities.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<main id="main">
+    <section class="inner-page">
+        <div class="container">
+            <br /><br />
+            <h2>Apagar Cliente</h2>
+            <br />
+
+            <h3>Deseja apagar o perfil <b>@Html.DisplayFor(model => model.FullName)</b> definitivamente? </h3>
+            <div>
+                @*<h4>Cliente</h4>*@
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Apagar" class="btn btn-danger" />
+                    <a asp-action="Index" class="btn btn-success">Voltar</a>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->

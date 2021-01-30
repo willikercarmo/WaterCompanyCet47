@@ -4,42 +4,70 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<main id="main">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @if (this.User.IsInRole("Admin"))
+    <!-- ======= Breadcrumbs Section ======= -->
+    @*<section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Conta</h2>
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li>Inner Page</li>
+                </ol>
+            </div>
+
+        </div>
+    </section>*@
+    <!-- End Breadcrumbs Section -->
+
+    <section class="inner-page">
+        <div class="container">
+
+            <br /><br />
+            <center><h2>Listar Clientes</h2></center>
+
+            <h4>Clientes</h4>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                                }
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalhes</a>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Apagar</a>
+                                }
+                            </td>
+                        </tr>
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                    @if (this.User.IsInRole("Admin"))
-                    {
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main><!-- End #main -->

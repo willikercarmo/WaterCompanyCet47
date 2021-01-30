@@ -4,68 +4,83 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            @if (this.User.IsInRole("Admin"))
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.User.FullName)
-                </th>
-            }
-            <th>
-                @Html.DisplayNameFor(model => model.Equipment.WaterMetering)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConsumptionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ForMonth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConsumptionValue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Value)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @if (this.User.IsInRole("Admin"))
-            {
-                <th>
-                    @Html.DisplayFor(modelItem => item.User.FullName)
-                </th>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConsumptionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ForMonth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConsumptionValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<main id="main">
+
+    <section class="inner-page">
+        <div class="container">
+            <br /><br />
+            <center><h2>Histórico de Consumos</h2></center>
+
+            @*<p>
+                    <a asp-action="Create" class="btn btn-primary">Create New</a>
+                </p>*@
+
+            <h4>Consumos <a asp-action="Create"><i class="fas fa-plus-circle"></i></a></h4>
+            <hr />
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.User.FullName)
+                            </th>
+                        }
+                        <th>
+                            @Html.DisplayNameFor(model => model.Equipment.WaterMetering)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ConsumptionDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ForMonth)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ConsumptionValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Value)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @if (this.User.IsInRole("Admin"))
+                            {
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.User.FullName)
+                                </th>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ConsumptionDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ForMonth)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ConsumptionValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main><!-- End #main -->

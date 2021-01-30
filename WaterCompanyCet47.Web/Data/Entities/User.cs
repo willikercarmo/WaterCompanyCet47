@@ -17,6 +17,10 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [Display(Name = "Apelido")]
         public string LastName { get; set; }
 
+        //Apelido
+        [Display(Name = "NIF")]
+        public string Nif { get; set; }
+
         //Cliente
         [Display(Name = "Nome Completo")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }

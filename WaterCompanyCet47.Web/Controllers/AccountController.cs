@@ -16,24 +16,45 @@ namespace WaterCompanyCet47.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
-
         private readonly DataContext _dataContext;
+        private readonly UserManager<User> _userManager;
 
-        public AccountController(IUserHelper userHelper, DataContext dataContext)
+        public AccountController(
+            IUserHelper userHelper,
+            DataContext dataContext,
+            UserManager<User> userManager)
         {
             _userHelper = userHelper;
             _dataContext = dataContext;
-
-
+            _userManager = userManager;
         }
 
-        public IActionResult Index() // Programação assincrono: permite mexer no programa mesmo estando 
+        //  Account/Index
+        public IActionResult Index()
         {
-            return View(_userHelper.GetAll().OrderBy(u => u.FullName)); //ordenar por nome
+            return View(_userHelper.GetAll().OrderBy(u => u.FullName));
         }
 
+        // GET: Account/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // GET: Account/Edit/5
         [Authorize(Roles = "Admin")]
-        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -65,51 +86,34 @@ namespace WaterCompanyCet47.Web.Controllers
             };
         }
 
+        // POST: Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(UserViewModel model)
+        public async Task<IActionResult> Edit(User user)
         {
-
-            var user = await _userHelper.GetByIdAsync(model.Id);
-
-            if (user != null)
+            if (user.Id == null)
             {
-                var result = await _userHelper.UpdateUserAsync(user);
-                if (result.Succeeded)
-                {
-                    return this.RedirectToAction("Index");
-                }
-                else
-                {
-                    this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
-                }
-            }
-            else
-            {
-                this.ModelState.AddModelError(string.Empty, "User no found.");
+                return NotFound();
             }
 
-            //_dataContext.Users.Add(model);
+            var userUpdate = await _dataContext.Users.FirstOrDefaultAsync(s => s.Id == user.Id);
 
-            //_dataContext.SaveChanges();
+            if (await TryUpdateModelAsync<User>(userUpdate, "", c => c.FirstName, c => c.LastName, c => c.Email, c => c.UserName))
+            {
 
-            //_dataContext.Entry(model).State = EntityState.Modified;
+                try
+                {
+                    await _dataContext.SaveChangesAsync();
+                    return this.RedirectToAction("Index", "Account");
+                }
+                catch (DbUpdateException)
+                {
 
-            //try
-            //{
-            //    _dataContext.SaveChanges();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!User(User.Identity.))
-            //    {
+                    ModelState.AddModelError(string.Empty, "Não foi possível salvar as atualizações.");
+                }
+            }
 
-            //    }
-            //    throw;
-            //}
-
-            return this.RedirectToAction("Edit", "Account");
-
+            return this.RedirectToAction("Index", "Account");
 
         }
 
@@ -124,6 +128,46 @@ namespace WaterCompanyCet47.Web.Controllers
                 UserName = view.UserName
             };
         }
+
+        // GET: Account/Delete/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // POST: Account/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+        /*------- Action to Users Manager ------------ */
 
         public IActionResult Login()
         {
@@ -171,33 +215,37 @@ namespace WaterCompanyCet47.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterNewUserViewModel model)
         {
-            if (this.ModelState.IsValid)
+            //if (this.ModelState.IsValid)
+            //{
+            var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+            if (user == null)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
-                if (user == null)
+                user = new User
                 {
-                    user = new User
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Email = model.UserName,
-                        UserName = model.UserName
-                    };
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.UserName,
+                    UserName = model.UserName,
+                    Nif = model.Nif,
+                    PhoneNumber = model.PhoneNumber
+                };
 
-                    var result = await _userHelper.AddUserAsync(user, model.Password);
-                    if (result != IdentityResult.Success)
-                    {
-                        this.ModelState.AddModelError(string.Empty, "O cliente não pode ser criado");
-                        return this.View(model);
-
-                    }
-
-                    ViewBag.Message = string.Format("O Consumidor foi inserido com sucesso.");
+                var result = await _userHelper.AddUserAsync(user, model.Password);
+                await _userHelper.AddUserToRoleAsync(user, "Customer");
+                if (result != IdentityResult.Success)
+                {
+                    this.ModelState.AddModelError(string.Empty, "O cliente não pode ser criado.");
                     return this.View(model);
+
                 }
 
-                this.ModelState.AddModelError(string.Empty, "The username is already registered.");
+                ViewBag.Message = string.Format("O Consumidor foi inserido com sucesso.");
+                //return this.View(model);
+                return RedirectToAction("Index");
             }
+
+            this.ModelState.AddModelError(string.Empty, "O Usuário já se encontra registado.");
+            //}
 
             return this.View(model);
         }
@@ -277,5 +325,8 @@ namespace WaterCompanyCet47.Web.Controllers
 
             return this.View(model);
         }
+
+
+
     }
 }

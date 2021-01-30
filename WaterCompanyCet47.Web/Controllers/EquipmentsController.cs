@@ -32,7 +32,11 @@ namespace WaterCompanyCet47.Web.Controllers
         // GET: Equipments
         public IActionResult Index()
         {
-            return View(_equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
+            var equipments = _equipmentRepository.GetAll().OrderBy(e => e.WaterMetering);
+
+            return View(equipments);
+
+            //return View(_equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
         }
 
         // GET: Equipments/Details/5
@@ -58,7 +62,7 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             var model = new AddEquipmentViewModel
             {
-                Users = _userHelper.GetComboUsers()
+                Users = _userHelper.GetComboUsers()            
             };
 
             return View(model);

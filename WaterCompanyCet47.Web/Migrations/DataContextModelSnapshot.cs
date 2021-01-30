@@ -245,6 +245,8 @@ namespace WaterCompanyCet47.Web.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Nif");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 

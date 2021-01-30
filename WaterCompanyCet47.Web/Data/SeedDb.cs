@@ -12,13 +12,13 @@ namespace WaterCompanyCet47.Web.Data
     {
         private readonly DataContext context;
         private readonly IUserHelper userHelper;
-
+        private Random _random;
 
         public SeedDb(DataContext context, IUserHelper userHelper)
         {
             this.context = context;
             this.userHelper = userHelper;
-
+            _random = new Random();
         }
 
         public async Task SeedAsync()
@@ -28,66 +28,84 @@ namespace WaterCompanyCet47.Web.Data
             await this.userHelper.CheckRoleAsync("Admin");
             await this.userHelper.CheckRoleAsync("Customer");
 
-            var user = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
-            var user2 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
-            var user3 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
-            var user4 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
-            var user5 = await this.userHelper.GetUserByEmailAsync("williker.do.carmo@formandos.cinel.pt");
+            var user = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
+            var user1 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
+            var user2 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
+            var user3 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
+            var user4 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
+
 
             if (user == null)
             {
                 user = new User
                 {
-                    FirstName = "Williker",
-                    LastName = "Carmo",
-                    Email = "williker.do.carmo@formandos.cinel.pt",
-                    UserName = "williker.do.carmo@formandos.cinel.pt",
-                    PhoneNumber = "912277715"
+                    FirstName = "Administrador",
+                    LastName = "WaterCompany",
+                    Email = "admin@watercompany.com",
+                    UserName = "admin@watercompany.com",
+                    PhoneNumber = "912277715",
+                    Nif = _random.Next(100000000, 999999999).ToString()
                 };
-
-                user2 = new User
+               
+                user1 = new User
                 {
                     FirstName = "Pedro",
                     LastName = "Águas",
                     Email = "pedro@water.com",
                     UserName = "pedro@water.com",
-                    PhoneNumber = "912277700"
+                    PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
+                    Nif = _random.Next(100000000, 999999999).ToString()
                 };
+                
 
-                user3 = new User
+                user2 = new User
                 {
                     FirstName = "Ana",
                     LastName = "Filipa",
                     Email = "ana@water.com",
                     UserName = "ana@water.com",
-                    PhoneNumber = "912277701"
+                    PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
+                    Nif = _random.Next(100000000, 999999999).ToString()
                 };
+               
 
-                user4 = new User
+                user3 = new User
                 {
                     FirstName = "Antonio",
                     LastName = "Reis",
                     Email = "antonio@water.com",
                     UserName = "antonio@water.com",
-                    PhoneNumber = "912277702"
+                    PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
+                    Nif = _random.Next(100000000, 999999999).ToString()
                 };
+                
 
-                user5 = new User
+                user4 = new User
                 {
                     FirstName = "Filipa",
                     LastName = "Neves",
                     Email = "filipa@water.com",
                     UserName = "filipa@water.com",
-                    PhoneNumber = "912277703"
+                    PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
+                    Nif = _random.Next(100000000, 999999999).ToString()
                 };
+                
 
                 var result = await this.userHelper.AddUserAsync(user, "123456");
+                var result1 = await this.userHelper.AddUserAsync(user1, "123456");
+                var result2 = await this.userHelper.AddUserAsync(user2, "123456");
+                var result3 = await this.userHelper.AddUserAsync(user3, "123456");
+                var result4 = await this.userHelper.AddUserAsync(user4, "123456");
                 if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
 
                 await this.userHelper.AddUserToRoleAsync(user, "Admin");
+                await this.userHelper.AddUserToRoleAsync(user1, "Customer");
+                await this.userHelper.AddUserToRoleAsync(user2, "Customer");
+                await this.userHelper.AddUserToRoleAsync(user3, "Customer");
+                await this.userHelper.AddUserToRoleAsync(user4, "Customer");
             }
 
             var isRole = await this.userHelper.IsUserInRoleAsync(user, "Admin");
@@ -98,21 +116,21 @@ namespace WaterCompanyCet47.Web.Data
 
             if (!this.context.Equipments.Any()) // se estiver vazia
             {
-                this.AddEquipment("CT111111111", "Morada 1", user2);
-                this.AddEquipment("CT222222222", "Morada 2", user3);
-                this.AddEquipment("CT333333333", "Morada 3", user4);
-                this.AddEquipment("CT444444444", "Morada 4", user5);
+                this.AddEquipment("Morada 1", user1);
+                this.AddEquipment("Morada 2", user2);
+                this.AddEquipment("Morada 3", user3);
+                this.AddEquipment("Morada 4", user4);
                 await this.context.SaveChangesAsync(); //vamos gravar
 
             }
 
         }
 
-        private void AddEquipment(string name, string address, User user)
+        private void AddEquipment(string address, User user)
         {
             this.context.Equipments.Add(new Equipment
             {
-                WaterMetering = name,
+                WaterMetering = "CT" + _random.Next(100000000, 999999999).ToString(),
                 Address = address,
                 User = user
             });

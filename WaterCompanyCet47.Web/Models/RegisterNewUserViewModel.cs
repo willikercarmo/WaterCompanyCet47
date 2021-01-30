@@ -9,12 +9,20 @@ namespace WaterCompanyCet47.Web.Models
     public class RegisterNewUserViewModel
     {
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "Primeiro Nome")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Apelido")]
         public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "NIF")]
+        public string Nif { get; set; }
+
+        [Required]
+        [Display(Name = "Telemóvel")]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
