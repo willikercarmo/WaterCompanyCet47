@@ -13,6 +13,7 @@ namespace WaterCompanyCet47.Web.Data.Repositories
 
         Task AddItemToConsumptionAsync(AddConsumptionViewModel model, string username);
 
-        
+        Task<bool> ConfirmConsumptionAsync(string userName);
+
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WaterCompanyCet47.Web.Data.Entities;
@@ -14,16 +13,113 @@ namespace WaterCompanyCet47.Web.Data.Repositories
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
 
-        public ConsumptionRepository(DataContext context, IUserHelper userHelper) : base(context)
+
+        public ConsumptionRepository(
+            DataContext context,
+            IUserHelper userHelper) : base(context)
         {
             _context = context;
             _userHelper = userHelper;
+
         }
 
-        public Task AddItemToConsumptionAsync(AddConsumptionViewModel model, string username)
+        public async Task AddItemToConsumptionAsync(AddConsumptionViewModel model, string username)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(username);
+            if (user == null)
+            {
+                return;
+            }
+
+            var equipment = await _context.Equipments.FindAsync(model.EquipmentId);
+            if (user == null)
+            {
+                return;
+            }
+
+            var consumptionDetailTemp = await _context.ConsumptionDetailTemps
+                .Where(c => c.User == user).FirstOrDefaultAsync();
+
+            if (consumptionDetailTemp == null)
+            {
+                consumptionDetailTemp = new ConsumptionDetailTemp
+                {
+                    User = user,
+                    Equipment = equipment,
+                    ForMonth = model.ForPeriod,
+                    ConsumptionValue = model.Consumption
+                };
+            }
+
+
+            _context.ConsumptionDetailTemps.Add(consumptionDetailTemp);
+
+            await _context.SaveChangesAsync();
+
+        }
+
+        public async Task<bool> ConfirmConsumptionAsync(string userName)
         {
             throw new NotImplementedException();
+            //var user = await _userHelper.GetUserByEmailAsync(userName);
+            //if (user == null)
+            //{
+            //    return false;
+            //}
+
+            //var consumptionTemps = await _context.ConsumptionDetailTemps
+            //    .Include(e => e.Equipment)
+            //    .Where(u => u.User == user)
+            //    .FirstOrDefaultAsync();
+
+            //if (consumptionTemps == null || consumptionTemps.Count == 0)
+            //{
+            //    return false;
+            //}
+
+            ////var details = consumptionTemps.Select(o => new ConsumptionDetail
+            ////{
+            ////    Equipment = o.Equipment,
+            ////    ForMonth = o.ForMonth,
+            ////    ConsumptionValue = o.ConsumptionValue
+            ////}).ToList();
+
+            //var consumption = consumptionTemps(o => new Consumption
+            //{
+            //    ConsumptionDate = DateTime.UtcNow,
+            //    User = user,
+            //    Equipment = o.Equipment,
+            //    ConsumptionValue = o.ConsumptionValue,
+            //    ForMonth = o.ForMonth,
+            //    Value = 0
+            //});
+
+            //_context.Consumptions.Add(consumption);
         }
+
+        //public async Task<bool> ConfirmConsumptionAsync(string userName)
+        //{
+        //    var user = await _userHelper.GetUserByEmailAsync(userName);
+        //    if (user == null)
+        //    {
+        //        return false;
+        //    }
+
+        //    var consumptionTemps = await _context.ConsumptionDetailTemps
+        //        .Include(e => e.Equipment)
+        //        .Where(u => u.User == user)
+        //        .ToListAsync();
+
+        //    var consumption = new Consumption
+        //    {
+        //        User = user,
+        //        Equipment = 
+        //        ConsumptionDate = DateTime.UtcNow,
+        //        Items = consumptionTemps
+        //    };
+
+        //    return true;
+        //}
 
         //public async Task AddItemToConsumptionAsync(AddConsumptionViewModel model, string username)
         //{
@@ -55,28 +151,29 @@ namespace WaterCompanyCet47.Web.Data.Repositories
 
         public async Task<IQueryable<Consumption>> GetConsumptionAsync(string username)
         {
-            var user = await _userHelper.GetUserByEmailAsync(username);
-            if (user == null)
-            {
-                return null;
-            }
+            throw new NotImplementedException();
+            //var user = await _userHelper.GetUserByEmailAsync(username);
+            //if (user == null)
+            //{
+            //    return null;
+            //}
 
-            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-            {
-                //Admin
-                return _context.Consumptions
-                    .Include(o => o.User)
-                    .Include(c => c.Items)
-                    .ThenInclude(i => i.Equipment)
-                    .OrderByDescending(c => c.ConsumptionDate);
-            }
+            //if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            //{
+            //    //Admin
+            //    return _context.Consumptions
+            //        .Include(o => o.User)
+            //        .Include(c => c.Items)
+            //        .ThenInclude(i => i.Equipment)
+            //        .OrderByDescending(c => c.ConsumptionDate);
+            //}
 
-            //Costumer
-            return _context.Consumptions
-                .Include(c => c.Items)
-                .ThenInclude(i => i.Equipment)
-                .Where(c => c.User == user)
-                .OrderByDescending(c => c.ConsumptionDate);
+            ////Costumer
+            //return _context.Consumptions
+            //    .Include(c => c.Items)
+            //    .ThenInclude(i => i.Equipment)
+            //    .Where(c => c.User == user)
+            //    .OrderByDescending(c => c.ConsumptionDate);
 
         }
 
@@ -88,21 +185,12 @@ namespace WaterCompanyCet47.Web.Data.Repositories
                 return null;
             }
 
-            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-            {
-                //Admin
-                return _context.ConsumptionDetailTemps
-                    .Include(o => o.User)
-                    .Include(c => c.Equipment)
-                    .OrderByDescending(c => c.ForMonth);
-            }
-
-            //Costumer
             return _context.ConsumptionDetailTemps
-                .Include(c => c.Equipment)
-                .Where(c => c.User == user)
-                .OrderByDescending(c => c.ForMonth);
+                .Include(o => o.Equipment)
+                .Where(u => u.User == user);
 
         }
+
+
     }
 }

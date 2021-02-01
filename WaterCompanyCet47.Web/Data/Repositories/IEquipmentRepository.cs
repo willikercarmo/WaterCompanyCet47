@@ -12,6 +12,7 @@
 
 
         IEnumerable<SelectListItem> GetComboEquipments();
+        IEnumerable<SelectListItem> GetComboEquipments(string email);
 
         Task AddEquipmentToEquipAsync(AddEquipmentViewModel model, string username);
 

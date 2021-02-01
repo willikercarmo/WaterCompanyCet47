@@ -15,32 +15,26 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [Required]
         public User User { get; set; }
 
-        //Contador
-        [Display(Name = "Contador")]
-        [Required]
-        public Equipment Equipment { get; set; }
-
-        public ConsumptionDetail Items { get; set; }
-
         //Data do Registo
         [Display(Name = "Data do Registo")]
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
         public DateTime ConsumptionDate { get; set; }
 
-        ////Mês
-        //[Display(Name = "Mês")]
-        //public string ForMonth { get { return this.Items == null ? "" : this.Items.ForMonth; } }
+        //Contador
+        [Display(Name = "Contador")]
+        [Required]
+        public Equipment Equipment { get; set; }
 
         //Período
         [Display(Name = "Período Mensal")]
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
-        public DateTime? ForMonth { get { return this.Items.ForMonth; } }
+        public DateTime? ForMonth { get; set; }
 
-      
+
         //Consumo em M³
         [Display(Name = "Consumo em m³")]
         [DisplayFormat(DataFormatString = "{0:N3}")]
-        public double ConsumptionValue { get { return this.Items == null ? 0 : this.Items.ConsumptionValue; } }
+        public double ConsumptionValue { get; set; }
 
 
         //Valor a Pagar

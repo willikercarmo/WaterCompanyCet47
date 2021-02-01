@@ -69,6 +69,23 @@
             return list;
         }
 
+        public IEnumerable<SelectListItem> GetComboEquipments(string email)
+        {
+            var list = _context.Equipments.Where(x => x.User.UserName == email).Select(p => new SelectListItem
+            {
+                Text = p.WaterMetering,
+                Value = p.Id.ToString()
+            }).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecione um contador)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
         public Task<IQueryable<Equipment>> GetOrderAsync(string username)
         {
             throw new System.NotImplementedException();
