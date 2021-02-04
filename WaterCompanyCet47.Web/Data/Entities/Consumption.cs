@@ -17,7 +17,7 @@ namespace WaterCompanyCet47.Web.Data.Entities
 
         //Data do Registo
         [Display(Name = "Data do Registo")]
-        [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime ConsumptionDate { get; set; }
 
         //Contador
@@ -25,16 +25,20 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [Required]
         public Equipment Equipment { get; set; }
 
+        //public IEnumerable<ConsumptionDetail> Items { get; set; }
+
+        public ConsumptionDetail Items { get; set; }
+
         //Período
         [Display(Name = "Período Mensal")]
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = false)]
-        public DateTime? ForMonth { get; set; }
+        public DateTime? ForMonth { get { return this.Items == null ? null : this.Items.ForMonth; } }
 
 
         //Consumo em M³
         [Display(Name = "Consumo em m³")]
         [DisplayFormat(DataFormatString = "{0:N3}")]
-        public double ConsumptionValue { get; set; }
+        public double ConsumptionValue { get { return this.Items == null ? 0 : this.Items.ConsumptionValue; } }
 
 
         //Valor a Pagar

@@ -32,7 +32,9 @@ namespace WaterCompanyCet47.Web.Controllers
         // GET: Equipments
         public IActionResult Index()
         {
-            var equipments = _equipmentRepository.GetAll().OrderBy(e => e.WaterMetering);
+            var equipments = _equipmentRepository.GetAll()
+                .Include(x => x.User)
+                .OrderBy(e => e.WaterMetering);
 
             return View(equipments);
 

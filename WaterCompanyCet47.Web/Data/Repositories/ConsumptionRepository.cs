@@ -60,29 +60,39 @@ namespace WaterCompanyCet47.Web.Data.Repositories
 
         public async Task<bool> ConfirmConsumptionAsync(string userName)
         {
-            throw new NotImplementedException();
-            //var user = await _userHelper.GetUserByEmailAsync(userName);
-            //if (user == null)
-            //{
-            //    return false;
-            //}
+            //throw new NotImplementedException();
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            if (user == null)
+            {
+                return false;
+            }
 
-            //var consumptionTemps = await _context.ConsumptionDetailTemps
-            //    .Include(e => e.Equipment)
-            //    .Where(u => u.User == user)
-            //    .FirstOrDefaultAsync();
+            var consumptionTemps = await _context.ConsumptionDetailTemps
+                .Include(e => e.Equipment)
+                .Where(u => u.User == user)
+                .FirstOrDefaultAsync();
 
-            //if (consumptionTemps == null || consumptionTemps.Count == 0)
-            //{
-            //    return false;
-            //}
+           
 
-            ////var details = consumptionTemps.Select(o => new ConsumptionDetail
-            ////{
-            ////    Equipment = o.Equipment,
-            ////    ForMonth = o.ForMonth,
-            ////    ConsumptionValue = o.ConsumptionValue
-            ////}).ToList();
+            if (consumptionTemps == null)
+            {
+                return false;
+            }
+
+            var details = new ConsumptionDetail
+            {
+                Equipment = consumptionTemps.Equipment,
+                ForMonth = consumptionTemps.ForMonth,
+                ConsumptionValue = consumptionTemps.ConsumptionValue
+            };
+
+            var consumption = new Consumption
+            {
+                ConsumptionDate = DateTime.UtcNow,
+                User = user,
+                Equipment = details.Equipment,
+                Items = details
+            };
 
             //var consumption = consumptionTemps(o => new Consumption
             //{
@@ -95,6 +105,11 @@ namespace WaterCompanyCet47.Web.Data.Repositories
             //});
 
             //_context.Consumptions.Add(consumption);
+            _context.Consumptions.Add(consumption);
+            _context.ConsumptionDetailTemps.Remove(consumptionTemps);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
         //public async Task<bool> ConfirmConsumptionAsync(string userName)
@@ -151,29 +166,29 @@ namespace WaterCompanyCet47.Web.Data.Repositories
 
         public async Task<IQueryable<Consumption>> GetConsumptionAsync(string username)
         {
-            throw new NotImplementedException();
-            //var user = await _userHelper.GetUserByEmailAsync(username);
-            //if (user == null)
-            //{
-            //    return null;
-            //}
+            //throw new NotImplementedException();
+            var user = await _userHelper.GetUserByEmailAsync(username);
+            if (user == null)
+            {
+                return null;
+            }
 
-            //if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-            //{
-            //    //Admin
-            //    return _context.Consumptions
-            //        .Include(o => o.User)
-            //        .Include(c => c.Items)
-            //        .ThenInclude(i => i.Equipment)
-            //        .OrderByDescending(c => c.ConsumptionDate);
-            //}
+            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            {
+                //Admin
+                return _context.Consumptions
+                    .Include(o => o.User)
+                    .Include(c => c.Items)
+                    .ThenInclude(i => i.Equipment)
+                    .OrderByDescending(c => c.ConsumptionDate);
+            }
 
-            ////Costumer
-            //return _context.Consumptions
-            //    .Include(c => c.Items)
-            //    .ThenInclude(i => i.Equipment)
-            //    .Where(c => c.User == user)
-            //    .OrderByDescending(c => c.ConsumptionDate);
+            //Costumer
+            return _context.Consumptions
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Equipment)
+                .Where(c => c.User == user)
+                .OrderByDescending(c => c.ConsumptionDate);
 
         }
 
