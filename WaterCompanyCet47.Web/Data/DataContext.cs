@@ -16,11 +16,7 @@ namespace WaterCompanyCet47.Web.Data
 
         public DbSet<Consumption> Consumptions { get; set; }
 
-        public DbSet<ConsumptionDetail> ConsumptionDetails { get; set; }
-
-        public DbSet<ConsumptionDetailTemp> ConsumptionDetailTemps { get; set; }
-
-
+        public DbSet<Invoice> Invoices { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)

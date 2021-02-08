@@ -1,7 +1,6 @@
-﻿@model WaterCompanyCet47.Web.Models.AddConsumptionViewModel
-
+﻿@model WaterCompanyCet47.Web.Models.ModifyConsumptionViewModel
 @{
-    ViewData["Title"] = "AddConsumption";
+    ViewData["Title"] = "Edit";
 }
 
 <main id="main">
@@ -9,21 +8,14 @@
     <section class="inner-page">
         <div class="container">
             <br /><br />
-            <center><h2>Registo Consumo Mensal</h2></center>
+            <center><h2>Modificação Consumo Mensal</h2></center>
 
             <h4>Dados da Leitura</h4>
             <hr />
             <div class="row">
                 <div class="col-md-4">
-                    <form asp-action="AddConsumption">
+                    <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        <div class="form-group">
-                            <label asp-for="EquipmentId" class="control-label"></label>
-                            <select asp-for="EquipmentId" asp-items="Model.Equipments" class="form-control"></select>
-                            <span asp-validation-for="EquipmentId" class="text-danger"></span>
-                        </div>
-                        <br />
                         <div class="form-group">
                             <label asp-for="ForBegin" class="control-label"></label>
                             <input asp-for="ForBegin" class="form-control" />

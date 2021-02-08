@@ -31,7 +31,7 @@ namespace WaterCompanyCet47.Web.Models
         // lista de users
         public IEnumerable<SelectListItem> Users { get; set; }
 
-        public IEnumerable<SelectListItem> Pets { get; set; }
+      
 
 
     }

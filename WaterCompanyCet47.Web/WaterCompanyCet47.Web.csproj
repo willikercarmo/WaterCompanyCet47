@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\20210124190128_EquipmentModels.Designer.cs" />
     <Compile Remove="Migrations\20210124201516_DbConsumption.cs" />
     <Compile Remove="Migrations\20210124201516_DbConsumption.Designer.cs" />
+    <Compile Remove="Migrations\20210207003301_initialdb.cs" />
+    <Compile Remove="Migrations\20210207003301_initialdb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -191,6 +193,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="20.2.0" />
+    <PackageReference Include="Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core" Version="18.4.0.39" />
+    <PackageReference Include="System.Security.Cryptography.OpenSsl" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

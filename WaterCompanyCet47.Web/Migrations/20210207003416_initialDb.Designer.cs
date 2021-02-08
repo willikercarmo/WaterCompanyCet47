@@ -10,8 +10,8 @@ using WaterCompanyCet47.Web.Data;
 namespace WaterCompanyCet47.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210126084203_ChangeConsumptionsModel")]
-    partial class ChangeConsumptionsModel
+    [Migration("20210207003416_initialDb")]
+    partial class initialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -139,67 +139,24 @@ namespace WaterCompanyCet47.Web.Migrations
 
                     b.Property<DateTime>("ConsumptionDate");
 
+                    b.Property<double>("ConsumptionValue");
+
                     b.Property<int>("EquipmentId");
 
-                    b.Property<int?>("ItemsId");
+                    b.Property<DateTime?>("ForBegin");
+
+                    b.Property<DateTime?>("ForEnd");
 
                     b.Property<string>("UserId")
                         .IsRequired();
 
-                    b.Property<decimal?>("Value");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EquipmentId");
-
-                    b.HasIndex("ItemsId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Consumptions");
-                });
-
-            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("ConsumptionValue");
-
-                    b.Property<int>("EquipmentId");
-
-                    b.Property<DateTime?>("ForMonth");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.ToTable("ConsumptionDetails");
-                });
-
-            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetailTemp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("ConsumptionValue");
-
-                    b.Property<int>("EquipmentId");
-
-                    b.Property<DateTime?>("ForMonth");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ConsumptionDetailTemps");
                 });
 
             modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Equipment", b =>
@@ -224,6 +181,33 @@ namespace WaterCompanyCet47.Web.Migrations
                     b.ToTable("Equipments");
                 });
 
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ConsumptionId");
+
+                    b.Property<int?>("EquipmentId");
+
+                    b.Property<DateTime>("InvoiceDate");
+
+                    b.Property<double?>("TotalAmount");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsumptionId");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Invoices");
+                });
+
             modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -246,6 +230,8 @@ namespace WaterCompanyCet47.Web.Migrations
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Nif");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -331,31 +317,6 @@ namespace WaterCompanyCet47.Web.Migrations
                         .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetail", "Items")
-                        .WithMany()
-                        .HasForeignKey("ItemsId");
-
-                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetail", b =>
-                {
-                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Equipment", "Equipment")
-                        .WithMany()
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.ConsumptionDetailTemp", b =>
-                {
-                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Equipment", "Equipment")
-                        .WithMany()
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -368,6 +329,21 @@ namespace WaterCompanyCet47.Web.Migrations
                         .WithMany("Equipments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("WaterCompanyCet47.Web.Data.Entities.Invoice", b =>
+                {
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Consumption", "Consumption")
+                        .WithMany()
+                        .HasForeignKey("ConsumptionId");
+
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId");
+
+                    b.HasOne("WaterCompanyCet47.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

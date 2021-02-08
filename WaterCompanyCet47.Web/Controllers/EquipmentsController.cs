@@ -10,7 +10,6 @@ using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Data.Repositories;
 using WaterCompanyCet47.Web.Helpers;
-using WaterCompanyCet47.Web.Migrations;
 using WaterCompanyCet47.Web.Models;
 
 namespace WaterCompanyCet47.Web.Controllers
@@ -64,7 +63,7 @@ namespace WaterCompanyCet47.Web.Controllers
         {
             var model = new AddEquipmentViewModel
             {
-                Users = _userHelper.GetComboUsers()            
+                Users = _userHelper.GetComboUsers()
             };
 
             return View(model);
@@ -134,27 +133,28 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            try
             {
-                try
-                {
-                    equipment.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                    await _equipmentRepository.UpdateAsync(equipment);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _equipmentRepository.ExistsAsync(equipment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                //equipment.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                equipment.User = await _userHelper.GetByIdAsync(id.ToString());
+                await _equipmentRepository.UpdateAsync(equipment);
             }
-            return View(equipment);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _equipmentRepository.ExistsAsync(equipment.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+            //}
+            //return View(equipment);
         }
 
         // GET: Equipments/Delete/5

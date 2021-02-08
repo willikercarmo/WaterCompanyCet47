@@ -28,11 +28,11 @@ namespace WaterCompanyCet47.Web.Data
             await this.userHelper.CheckRoleAsync("Admin");
             await this.userHelper.CheckRoleAsync("Customer");
 
-            var user = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
-            var user1 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
-            var user2 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
-            var user3 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
-            var user4 = await this.userHelper.GetUserByEmailAsync("admin@watercompany.com");
+            var user = await this.userHelper.GetUserByEmailAsync("admin@water.com");
+            var user1 = await this.userHelper.GetUserByEmailAsync("admin@water.com");
+            var user2 = await this.userHelper.GetUserByEmailAsync("admin@water.com");
+            var user3 = await this.userHelper.GetUserByEmailAsync("admin@water.com");
+            var user4 = await this.userHelper.GetUserByEmailAsync("admin@water.com");
 
 
             if (user == null)
@@ -41,8 +41,8 @@ namespace WaterCompanyCet47.Web.Data
                 {
                     FirstName = "Administrador",
                     LastName = "WaterCompany",
-                    Email = "admin@watercompany.com",
-                    UserName = "admin@watercompany.com",
+                    Email = "admin@water.com",
+                    UserName = "admin@water.com",
                     PhoneNumber = "912277715",
                     Nif = _random.Next(100000000, 999999999).ToString()
                 };
@@ -50,7 +50,7 @@ namespace WaterCompanyCet47.Web.Data
                 user1 = new User
                 {
                     FirstName = "Pedro",
-                    LastName = "Águas",
+                    LastName = "do Carmo",
                     Email = "pedro@water.com",
                     UserName = "pedro@water.com",
                     PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
@@ -61,7 +61,7 @@ namespace WaterCompanyCet47.Web.Data
                 user2 = new User
                 {
                     FirstName = "Ana",
-                    LastName = "Filipa",
+                    LastName = "do Carmo",
                     Email = "ana@water.com",
                     UserName = "ana@water.com",
                     PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
@@ -72,7 +72,7 @@ namespace WaterCompanyCet47.Web.Data
                 user3 = new User
                 {
                     FirstName = "Antonio",
-                    LastName = "Reis",
+                    LastName = "do Carmo",
                     Email = "antonio@water.com",
                     UserName = "antonio@water.com",
                     PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),
@@ -83,7 +83,7 @@ namespace WaterCompanyCet47.Web.Data
                 user4 = new User
                 {
                     FirstName = "Filipa",
-                    LastName = "Neves",
+                    LastName = "do Carmo",
                     Email = "filipa@water.com",
                     UserName = "filipa@water.com",
                     PhoneNumber = "9" + _random.Next(10000000, 99999999).ToString(),

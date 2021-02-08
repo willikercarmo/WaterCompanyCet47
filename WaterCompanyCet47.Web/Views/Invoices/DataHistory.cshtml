@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WaterCompanyCet47.Web.Data.Entities.Consumption>
+﻿@model IEnumerable<WaterCompanyCet47.Web.Data.Entities.Invoice>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,13 +10,13 @@
     <section class="inner-page">
         <div class="container">
             <br /><br />
-            <center><h2>Histórico de Consumos</h2></center>
+            <center><h2>Faturação</h2></center>
 
             @*<p>
-                    <a asp-action="Create" class="btn btn-primary">Create New</a>
-                </p>*@
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>*@
 
-            <h4>Consumos <a asp-action="AddConsumption"><i class="fas fa-plus-circle"></i></a></h4>
+            <h4>Consumos</h4>
             <hr />
 
             <table class="table">
@@ -32,16 +32,19 @@
                             @Html.DisplayNameFor(model => model.Equipment.WaterMetering)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ConsumptionDate)
+                            @Html.DisplayNameFor(model => model.InvoiceDate)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ForBegin)
+                            @Html.DisplayNameFor(model => model.Consumption.ForBegin)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ForEnd)
+                            @Html.DisplayNameFor(model => model.Consumption.ForEnd)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ConsumptionValue)
+                            @Html.DisplayNameFor(model => model.Consumption.ConsumptionValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalAmount)
                         </th>
                         <th></th>
                     </tr>
@@ -60,23 +63,24 @@
                             @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ConsumptionDate)
+                            @Html.DisplayFor(modelItem => item.InvoiceDate)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ForBegin)
+                            @Html.DisplayFor(modelItem => item.Consumption.ForBegin)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ForEnd)
+                            @Html.DisplayFor(modelItem => item.Consumption.ForEnd)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ConsumptionValue)
+                            @Html.DisplayFor(modelItem => item.Consumption.ConsumptionValue)
                         </td>
-
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary far fa-edit"></a>
-                            <a asp-action="Details" asp-route-id="@item.Id"  class="btn btn-success fas fa-info-circle"></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fas fa-trash-alt"></a>
-                            <a asp-action="CalculateInvoice" asp-controller="Invoices" asp-route-id="@item.Id" class="btn btn-primary fas fa-calculator"></a>
+                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                     }

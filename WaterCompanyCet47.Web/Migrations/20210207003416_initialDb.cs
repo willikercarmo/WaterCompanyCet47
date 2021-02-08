@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WaterCompanyCet47.Web.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class initialDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,8 @@ namespace WaterCompanyCet47.Web.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    Nif = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,69 +179,17 @@ namespace WaterCompanyCet47.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ConsumptionDetails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EquipmentId = table.Column<int>(nullable: false),
-                    ForMonth = table.Column<string>(nullable: true),
-                    ForYear = table.Column<string>(nullable: true),
-                    ConsumptionValue = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConsumptionDetails", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ConsumptionDetails_Equipments_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "Equipments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ConsumptionDetailTemps",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: false),
-                    EquipmentId = table.Column<int>(nullable: false),
-                    ForMonth = table.Column<string>(nullable: true),
-                    ForYear = table.Column<string>(nullable: true),
-                    ConsumptionValue = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConsumptionDetailTemps", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ConsumptionDetailTemps_Equipments_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "Equipments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ConsumptionDetailTemps_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Consumptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
-                    EquipmentId = table.Column<int>(nullable: false),
                     ConsumptionDate = table.Column<DateTime>(nullable: false),
-                    ForMonth = table.Column<string>(nullable: true),
-                    ForYear = table.Column<string>(nullable: true),
-                    ConsumptionValue = table.Column<double>(nullable: false),
-                    Value = table.Column<decimal>(nullable: true)
+                    EquipmentId = table.Column<int>(nullable: false),
+                    ForBegin = table.Column<DateTime>(nullable: true),
+                    ForEnd = table.Column<DateTime>(nullable: true),
+                    ConsumptionValue = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,6 +202,41 @@ namespace WaterCompanyCet47.Web.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Consumptions_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: true),
+                    EquipmentId = table.Column<int>(nullable: true),
+                    InvoiceDate = table.Column<DateTime>(nullable: false),
+                    ConsumptionId = table.Column<int>(nullable: true),
+                    TotalAmount = table.Column<double>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Consumptions_ConsumptionId",
+                        column: x => x.ConsumptionId,
+                        principalTable: "Consumptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Equipments_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "Equipments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Invoices_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -299,21 +283,6 @@ namespace WaterCompanyCet47.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConsumptionDetails_EquipmentId",
-                table: "ConsumptionDetails",
-                column: "EquipmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConsumptionDetailTemps_EquipmentId",
-                table: "ConsumptionDetailTemps",
-                column: "EquipmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConsumptionDetailTemps_UserId",
-                table: "ConsumptionDetailTemps",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Consumptions_EquipmentId",
                 table: "Consumptions",
                 column: "EquipmentId");
@@ -326,6 +295,21 @@ namespace WaterCompanyCet47.Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Equipments_UserId",
                 table: "Equipments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_ConsumptionId",
+                table: "Invoices",
+                column: "ConsumptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_EquipmentId",
+                table: "Invoices",
+                column: "EquipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_UserId",
+                table: "Invoices",
                 column: "UserId");
         }
 
@@ -347,16 +331,13 @@ namespace WaterCompanyCet47.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ConsumptionDetails");
-
-            migrationBuilder.DropTable(
-                name: "ConsumptionDetailTemps");
-
-            migrationBuilder.DropTable(
-                name: "Consumptions");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Consumptions");
 
             migrationBuilder.DropTable(
                 name: "Equipments");

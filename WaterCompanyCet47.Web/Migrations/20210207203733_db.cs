@@ -2,7 +2,7 @@
 
 namespace WaterCompanyCet47.Web.Migrations
 {
-    public partial class NewDb : Migration
+    public partial class db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

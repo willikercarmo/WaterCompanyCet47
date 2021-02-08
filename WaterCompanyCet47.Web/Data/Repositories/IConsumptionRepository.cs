@@ -9,11 +9,8 @@ namespace WaterCompanyCet47.Web.Data.Repositories
     {
         Task<IQueryable<Consumption>> GetConsumptionAsync(string username);
 
-        Task<IQueryable<ConsumptionDetailTemp>> GetConsumptionDetailTempsAsync(string username);
-
         Task AddItemToConsumptionAsync(AddConsumptionViewModel model, string username);
 
-        Task<bool> ConfirmConsumptionAsync(string userName);
-
+      
     }
 }

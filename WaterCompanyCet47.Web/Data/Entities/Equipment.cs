@@ -27,9 +27,6 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [Display(Name = "Consumidor")]
         [Required]
         public User User { get; set; }
-
-        
-
-
+              
     }
 }

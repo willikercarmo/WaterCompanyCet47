@@ -20,13 +20,24 @@ namespace WaterCompanyCet47.Web.Models
         public int EquipmentId { get; set; }
 
         [Range(0.0001, double.MaxValue, ErrorMessage = "A quantidade deve ser um número maior que zero.")]
-        [Display(Name = "Consumo em M³")]
-        [DisplayFormat(DataFormatString = "{0:N2}")]
-        public double Consumption { get; set; }
+        [Display(Name = "Consumo em m³")]
+        [DisplayFormat(DataFormatString = "{0:N3}")]
+        public double ConsumptionValue { get; set; }
 
-        [Display(Name = "Período")]
-        [DisplayFormat(DataFormatString = "{0:MMM-yyyy}")]
-        public DateTime? ForPeriod { get; set; }
+        //Período
+        [Display(Name = "Data de Início")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime? ForBegin { get; set; }
+
+        //Período
+        [Display(Name = "Data de Fim")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime? ForEnd { get; set; }
+
+        //Data do Registo
+        [Display(Name = "Data do Registo")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm tt}", ApplyFormatInEditMode = false)]
+        public DateTime ConsumptionDate { get; set; }
 
 
         // lista de users

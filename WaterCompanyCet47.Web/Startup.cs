@@ -47,6 +47,7 @@
             services.AddScoped<IEquipmentRepository, EquipmentRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IConsumptionRepository, ConsumptionRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

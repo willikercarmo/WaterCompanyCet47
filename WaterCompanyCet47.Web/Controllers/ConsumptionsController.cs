@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,25 +33,19 @@ namespace WaterCompanyCet47.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            
             var model = await _consumptionRepository.GetConsumptionAsync(this.User.Identity.Name);
 
             return View(model);
         }
 
-        public async Task<IActionResult> Create()
-        {
-            var model = await _consumptionRepository.GetConsumptionDetailTempsAsync(this.User.Identity.Name);
-
-            return View(model);
-        }
+       
 
         public IActionResult AddConsumption()
         {
             var model = new AddConsumptionViewModel
             {
                 Equipments = _equipmentRepository.GetComboEquipments(this.User.Identity.Name)
-
-
             };
 
             return View(model);
@@ -61,21 +56,66 @@ namespace WaterCompanyCet47.Web.Controllers
         {
 
             await _consumptionRepository.AddItemToConsumptionAsync(model, this.User.Identity.Name);
-            return this.RedirectToAction("Create");
+            return this.RedirectToAction("Index");
 
-
-            //return this.View(model);
         }
 
-        public async Task<IActionResult> ConfirmConsumption()
+        // GET: Consumptions/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            var response = await _consumptionRepository.ConfirmConsumptionAsync(this.User.Identity.Name);
-            if (response)
+            if (id == null)
             {
-                return this.RedirectToAction("Index");
+                return NotFound();
             }
 
-            return this.RedirectToAction("Create");
+            var consumption = await _consumptionRepository.GetByIdAsync(id.Value);
+            if (consumption == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ModifyConsumptionViewModel
+            {
+                ConsumptionValue = consumption.ConsumptionValue,
+                ForBegin = consumption.ForBegin,
+                ForEnd = consumption.ForEnd,
+                User = consumption.User,
+                Equipments = _equipmentRepository.GetComboEquipments(this.User.Identity.Name)
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ConsumptionDate,Equipment,ForBegin,ForEnd,ConsumptionValue")] Consumption consumption)
+        {
+            if (id != consumption.Id)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                consumption.Equipment = await _equipmentRepository.GetByIdAsync(id);
+                consumption.User = await _userHelper.GetByIdAsync(id.ToString());
+                consumption.ConsumptionDate = DateTime.UtcNow;
+
+                await _consumptionRepository.UpdateAsync(consumption);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _consumptionRepository.ExistsAsync(consumption.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
         }
 
 
