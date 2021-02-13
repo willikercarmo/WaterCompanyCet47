@@ -42,10 +42,22 @@
                 </div>
             </div>
 
-            @section Scripts {
-                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-            }
+
         </div>
     </section>
 
 </main><!-- End #main -->
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+                window.onload = function () {
+                    alert("@ViewBag.Message");
+                }
+    </script>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

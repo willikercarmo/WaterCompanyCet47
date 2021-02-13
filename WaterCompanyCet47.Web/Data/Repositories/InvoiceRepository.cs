@@ -22,21 +22,21 @@ namespace WaterCompanyCet47.Web.Data.Repositories
         public async Task<IQueryable<Invoice>> GetInvoiceAsync(string username)
         {
 
-            var user = await _userHelper.GetUserByEmailAsync(username);
+            var user = await _userHelper.GetUserByIdAsync(username);
             if (user == null)
             {
                 return null;
             }
 
-            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-            {
-                //Admin
-                return _context.Invoices
-                    .Include(o => o.User)
-                    .Include(c => c.Equipment)
-                    .Include(c => c.Consumption)
-                    .OrderByDescending(c => c.InvoiceDate);
-            }
+            //if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            //{
+            //    //Admin
+            //    return _context.Invoices
+            //        .Include(o => o.User)
+            //        .Include(c => c.Equipment)
+            //        .Include(c => c.Consumption)
+            //        .OrderByDescending(c => c.InvoiceDate);
+            //}
 
             //Costumer
             return _context.Invoices

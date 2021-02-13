@@ -82,42 +82,62 @@
                         </li>
                         <li><a href="#contact">Contact</a></li>*@
 
-                    <li class="drop-down">
-                        <a href="">Área do Administrador</a>
-                        <ul>
-                            <li class="drop-down">
-                                <a href="#">Cliente</a>
-                                <ul>
-                                    <li><a asp-controller="Account" asp-action="Index">Listar Cliente</a></li>
-                                    <li><a asp-controller="Account" asp-action="Register">Registar Cliente</a></li>
-                                </ul>
-                            </li>
-                            <li class="drop-down">
-                                <a href="#">Contador</a>
-                                <ul>
-                                    <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar Contadores</a></li>
-                                    <li><a asp-area="" asp-controller="Equipments" asp-action="Create">Registar Contador</a></li>
-                                </ul>
-                            </li>
-                            <li class="drop-down">
-                                <a href="#">Consumo</a>
-                                <ul>
-                                    <li><a asp-area="" asp-controller="Consumptions" asp-action="Index">Consumo</a></li>
-                                </ul>
-                            </li>
-                            <li class="drop-down">
-                                <a href="#">Faturação</a>
-                                <ul>
-                                    <li><a asp-area="" asp-controller="Invoices" asp-action="Index">Faturação</a></li>
-                                </ul>
-                            </li>
-                            @*<li><a href="#">Drop Down 3</a></li>*@
-                        </ul>
-                    </li>
+
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li class="drop-down">
+                            <a href="">Área do Administrador</a>
+                            <ul>
+                                <li class="drop-down">
+                                    <a href="#">Consumidor</a>
+                                    <ul>
+                                        <li><a asp-controller="Account" asp-action="Index">Listar Todos Consumidores</a></li>
+                                        <li><a asp-controller="Account" asp-action="Register">Registar Novo Consumidor</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drop-down">
+                                    <a href="#">Contador</a>
+                                    <ul>
+                                        <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Listar Todos Contadores</a></li>
+                                        <li><a asp-area="" asp-controller="Equipments" asp-action="Create">Registar Novo Contador</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drop-down">
+                                    <a href="#">Consumo</a>
+                                    <ul>
+                                        <li><a asp-area="" asp-controller="Consumptions" asp-action="Index">Consumo</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drop-down">
+                                    <a href="#">Faturação</a>
+                                    <ul>
+                                        <li><a asp-area="" asp-controller="Invoices" asp-action="Index">Faturação</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (this.User.IsInRole("Customer"))
+                    {
+                        <li class="drop-down">
+                            <a href="">Área de Cliente</a>
+                            <ul>
+                                <li class="drop-down">
+                                    <a href="#">Consumo</a>
+                                    <ul>
+                                        <li><a asp-area="" asp-controller="Consumptions" asp-action="Index">Ver Histórico de Consumo</a></li>
+                                        <li><a asp-area="" asp-controller="Consumptions" asp-action="AddConsumption">Registar Novo Consumo</a></li>
+                                    </ul>
+                                </li>
+                                <li> <a asp-area="" asp-controller="Invoices" asp-action="Index">Faturação</a></li>
+
+                            </ul>
+                        </li>
+                    }
 
                     @if (this.User.Identity.IsAuthenticated)
                     {
-
                         <li class="drop-down">
                             <a class="get-started-btn scrollto"><i class="fas fa-user-circle"></i></a>
                             <ul>
@@ -125,7 +145,7 @@
                                     <a>@this.User.Identity.Name</a>
                                 </li>
                                 <li>
-                                    <a>Ver Perfil</a>
+                                    <a asp-area="" asp-controller="Account" asp-action="Profile">Ver Perfil</a>
                                 </li>
                                 <li>
                                     <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>

@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\carmo\.nuget\packages\select.htmltopdf.netcore\20.2.0\contentFiles\any\any\Select.Html.dep" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\layout\assets\js\main.js" />
     <None Include="wwwroot\layout\assets\vendor\aos\aos.js" />
     <None Include="wwwroot\layout\assets\vendor\bootstrap\css\bootstrap-grid.css.map" />
@@ -179,6 +183,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />

@@ -41,6 +41,10 @@ namespace WaterCompanyCet47.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:N3}")]
         public double ConsumptionValue { get; set; }
 
+        //Fatura emitida
+        [Display(Name = "Fatura emitida")]
+        public bool InvoiceIssued { get; set; }
+
 
         ////Valor a Pagar
         ////TODO: Fazer um AddMigrations

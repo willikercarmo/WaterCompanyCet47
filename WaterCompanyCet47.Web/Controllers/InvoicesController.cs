@@ -12,9 +12,11 @@ using WaterCompanyCet47.Web.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using SelectPdf;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WaterCompanyCet47.Web.Controllers
 {
+    [Authorize]
     public class InvoicesController : Controller
     {
         private readonly DataContext _dataContext;
@@ -31,23 +33,31 @@ namespace WaterCompanyCet47.Web.Controllers
             IHostingEnvironment hostingEnvironment)
         {
             _dataContext = dataContext;
-
             _userHelper = userHelper;
             _invoiceRepository = invoiceRepository;
             _consumptionRepository = consumptionRepository;
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var user = _userHelper.GetAll().OrderBy(u => u.FullName);
-            return View(user);
+
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            {
+                return View(_userHelper.GetAll().OrderBy(u => u.FullName));
+            }
+
+            var invoices = _userHelper.GetAll()
+            .Where(u => u.UserName == user.UserName)
+            .OrderBy(u => u.FullName);
+            return View(invoices);
         }
 
-        public async Task<IActionResult> DataHistory()
+        public async Task<IActionResult> DataHistory(string id)
         {
-
-            var model = await _invoiceRepository.GetInvoiceAsync(this.User.Identity.Name);         
+         
+            var model = await _invoiceRepository.GetInvoiceAsync(id);
 
             return View(model);
         }
@@ -57,6 +67,11 @@ namespace WaterCompanyCet47.Web.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            if (InvoiceExists(id.Value) == true)
+            {
+                return RedirectToAction("Index");
             }
 
             var model = await _dataContext.Consumptions
@@ -102,11 +117,16 @@ namespace WaterCompanyCet47.Web.Controllers
 
             _dataContext.Invoices.Add(invoice);
 
+            var consumptionUpdate = await _dataContext.Consumptions.FirstOrDefaultAsync(c => c.Id == model.Id);
+
+            var contact = new Consumption { Id = model.Id };
+            contact.InvoiceIssued = true;
+            _dataContext.Entry(contact).Property("InvoiceIssued").IsModified = true;
+
+
             await _dataContext.SaveChangesAsync();
 
-           
             return RedirectToAction(nameof(Index));
-           
         }
 
         public IActionResult GeneratePdf(string html)
@@ -119,6 +139,11 @@ namespace WaterCompanyCet47.Web.Controllers
             pdfDocument.Close();
 
             return File(pdf, "application/pdf", "Fatura.pdf");
+        }
+
+        private bool InvoiceExists(int id)
+        {
+            return _dataContext.Invoices.Any(e => e.Consumption.Id == id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using WaterCompanyCet47.Web.Models;
 
 namespace WaterCompanyCet47.Web.Controllers
 {
+    [Authorize]
     public class ConsumptionsController : Controller
     {
         private readonly IConsumptionRepository _consumptionRepository;
@@ -60,12 +62,42 @@ namespace WaterCompanyCet47.Web.Controllers
 
         }
 
+        // GET: Equipments/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+          
+
+            //var consumption = await _consumptionRepository.GetByIdAsync(id.Value);
+
+            var consumption = await _dataContext.Consumptions
+                .Include(e => e.Equipment)
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (consumption == null)
+            {
+                return NotFound();
+            }
+
+            return View(consumption);
+        }
+
         // GET: Consumptions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
+            }
+
+            if (InvoiceExists(id.Value) == true)
+            {
+                return RedirectToAction("Index");
             }
 
             var consumption = await _consumptionRepository.GetByIdAsync(id.Value);
@@ -118,6 +150,50 @@ namespace WaterCompanyCet47.Web.Controllers
 
         }
 
+        // GET: Equipments/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (InvoiceExists(id.Value) == true)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var consumption = await _dataContext.Consumptions
+                .Include(e => e.Equipment)
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (consumption == null)
+            {
+                return NotFound();
+            }
+
+            return View(consumption);
+        }
+
+        // POST: Equipments/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var consumption = await _consumptionRepository.GetByIdAsync(id);
+            await _consumptionRepository.DeleteAsync(consumption);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        private bool InvoiceExists(int id)
+        {
+            //return this.equipmentRepository.ExistsAsync(view.Id);
+
+            return _dataContext.Invoices.Any(e => e.Consumption.Id == id);
+        }
 
     }
 }

@@ -49,36 +49,47 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        @if (this.User.IsInRole("Admin"))
-                        {
-                            <th>
-                                @Html.DisplayFor(modelItem => item.User.FullName)
-                            </th>
-                        }
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConsumptionDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ForBegin)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ForEnd)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConsumptionValue)
-                        </td>
+                        <tr>
+                            @if (this.User.IsInRole("Admin"))
+                            {
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.User.FullName)
+                                </th>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ConsumptionDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ForBegin)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ForEnd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ConsumptionValue)
+                            </td>
 
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary far fa-edit"></a>
-                            <a asp-action="Details" asp-route-id="@item.Id"  class="btn btn-success fas fa-info-circle"></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fas fa-trash-alt"></a>
-                            <a asp-action="CalculateInvoice" asp-controller="Invoices" asp-route-id="@item.Id" class="btn btn-primary fas fa-calculator"></a>
-                        </td>
-                    </tr>
+                            <td>
+                                @if (item.InvoiceIssued == true)
+                                {
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fas fa-info-circle"></a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary far fa-edit"></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fas fa-info-circle"></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fas fa-trash-alt"></a>
+                                    @if (this.User.IsInRole("Admin"))
+                                    {
+                                        <a asp-action="CalculateInvoice" asp-controller="Invoices" asp-route-id="@item.Id" class="btn btn-primary fas fa-calculator"></a>
+                                    }
+                                }
+
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -86,3 +97,16 @@
     </section>
 
 </main><!-- End #main -->
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+                window.onload = function () {
+                    alert("@ViewBag.Message");
+                }
+    </script>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

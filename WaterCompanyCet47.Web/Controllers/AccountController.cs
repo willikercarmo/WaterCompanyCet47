@@ -53,6 +53,21 @@ namespace WaterCompanyCet47.Web.Controllers
             return View(user);
         }
 
+
+        // GET: Account/Details/5
+        public async Task<IActionResult> Profile()
+        {
+
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+                       
+            return View(user);
+        }
+
         // GET: Account/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)

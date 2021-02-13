@@ -1,0 +1,59 @@
+﻿@model WaterCompanyCet47.Web.Data.Entities.Consumption
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<section class="inner-page">
+    <div class="container">
+        <br /><br />
+        <center><h2>Detalhes do Consumo</h2></center>
+
+        <div>
+            <h4>Consumo</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Equipment.WaterMetering)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Equipment.WaterMetering)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ConsumptionDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ConsumptionDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ForBegin)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ForBegin)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ForEnd)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ForEnd)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ConsumptionValue)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ConsumptionValue)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            @if (@Model.InvoiceIssued == false)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+            }
+
+            <a asp-action="Index" class="btn btn-success">Voltar</a>
+        </div>
+    </div>
+</section>
+
+</main><!-- End #main -->

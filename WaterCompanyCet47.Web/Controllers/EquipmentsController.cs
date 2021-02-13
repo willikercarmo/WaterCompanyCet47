@@ -37,7 +37,6 @@ namespace WaterCompanyCet47.Web.Controllers
 
             return View(equipments);
 
-            //return View(_equipmentRepository.GetAll().OrderBy(e => e.WaterMetering));
         }
 
         // GET: Equipments/Details/5
@@ -69,26 +68,6 @@ namespace WaterCompanyCet47.Web.Controllers
             return View(model);
 
         }
-
-        // POST: Equipments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,WaterMetering,Installation,Address")] Equipment equipment)
-        //{
-
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        //equipment.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-        //        equipment.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-        //        await _equipmentRepository.CreateAsync(equipment);
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(equipment);
-        //}
-
 
         [HttpPost]
         public async Task<IActionResult> Create(AddEquipmentViewModel model)
@@ -153,8 +132,6 @@ namespace WaterCompanyCet47.Web.Controllers
                 }
             }
             return RedirectToAction(nameof(Index));
-            //}
-            //return View(equipment);
         }
 
         // GET: Equipments/Delete/5
