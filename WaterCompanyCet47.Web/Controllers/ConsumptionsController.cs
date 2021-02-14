@@ -35,29 +35,73 @@ namespace WaterCompanyCet47.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
+
             var model = await _consumptionRepository.GetConsumptionAsync(this.User.Identity.Name);
 
             return View(model);
         }
 
-       
-
-        public IActionResult AddConsumption()
+        [Authorize(Roles = "Admin")]
+        public IActionResult ListAllCostumer()
         {
-            var model = new AddConsumptionViewModel
-            {
-                Equipments = _equipmentRepository.GetComboEquipments(this.User.Identity.Name)
-            };
+            return View(_userHelper.GetAll().OrderBy(u => u.FullName));
+        }
 
-            return View(model);
+        public async Task<IActionResult> AddConsumption(string id)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            {
+                if (id == null)
+                {
+                    return RedirectToAction("ListAllCostumer");
+                }
+
+                user = await _userHelper.GetByIdAsync(id);
+                var model = new AddConsumptionViewModel
+                {
+                    Equipments = _equipmentRepository.GetComboEquipments(user.UserName),
+                    Users = _userHelper.GetComboUsers(user.UserName)
+                };
+                return View(model);
+            }
+            else
+            {
+                var model = new AddConsumptionViewModel
+                {
+                    Equipments = _equipmentRepository.GetComboEquipments(this.User.Identity.Name)
+
+                };
+                return View(model);
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> AddConsumption(AddConsumptionViewModel model)
         {
+            if (model.UserId == "0")
+            {
+                this.ModelState.AddModelError(string.Empty, "Falta selecionar o consumidor");
+                ViewBag.Message = string.Format("Falta selecionar o consumidor");
+                return this.RedirectToAction("AddConsumption");
+            }
 
-            await _consumptionRepository.AddItemToConsumptionAsync(model, this.User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            {
+                user = await _userHelper.GetByIdAsync(model.UserId.ToString());
+                await _consumptionRepository.AddItemToConsumptionAsync(model, user.UserName);
+            }
+            else
+            {
+                await _consumptionRepository.AddItemToConsumptionAsync(model, this.User.Identity.Name);
+            }
+
+            //var user = await _userHelper.GetByIdAsync(model.UserId.ToString());
+
+
             return this.RedirectToAction("Index");
 
         }
@@ -70,7 +114,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 return NotFound();
             }
 
-          
+
 
             //var consumption = await _consumptionRepository.GetByIdAsync(id.Value);
 

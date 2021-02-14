@@ -85,6 +85,24 @@ namespace WaterCompanyCet47.Web.Helpers
 
         }
 
+        public IEnumerable<SelectListItem> GetComboUsers(string email)
+        {
+            var list = _context.Users.Where(x => x.UserName == email).Select(p => new SelectListItem
+            {
+                Text = p.UserName,
+                Value = p.Id.ToString(),
+            }).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecionar o Consumidor...)",
+                Value = "0"
+            });
+
+            return list;
+
+        }
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);

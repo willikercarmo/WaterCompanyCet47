@@ -105,15 +105,11 @@
                                 <li class="drop-down">
                                     <a href="#">Consumo</a>
                                     <ul>
-                                        <li><a asp-area="" asp-controller="Consumptions" asp-action="Index">Consumo</a></li>
+                                        <li><a asp-area="" asp-controller="Consumptions" asp-action="Index">Ver Histórico de Consumo</a></li>
+                                        <li><a asp-area="" asp-controller="Consumptions" asp-action="AddConsumption">Registar Novo Consumo</a></li>
                                     </ul>
                                 </li>
-                                <li class="drop-down">
-                                    <a href="#">Faturação</a>
-                                    <ul>
-                                        <li><a asp-area="" asp-controller="Invoices" asp-action="Index">Faturação</a></li>
-                                    </ul>
-                                </li>
+                                <li><a asp-area="" asp-controller="Invoices" asp-action="Index">Faturação</a></li>
                             </ul>
                         </li>
                     }
@@ -130,7 +126,7 @@
                                         <li><a asp-area="" asp-controller="Consumptions" asp-action="AddConsumption">Registar Novo Consumo</a></li>
                                     </ul>
                                 </li>
-                                <li> <a asp-area="" asp-controller="Invoices" asp-action="Index">Faturação</a></li>
+                                <li> <a asp-area="" asp-controller="Invoices" asp-action="DataHistory">Faturação</a></li>
 
                             </ul>
                         </li>

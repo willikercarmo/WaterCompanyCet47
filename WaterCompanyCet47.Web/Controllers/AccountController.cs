@@ -211,7 +211,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 }
             }
 
-            this.ModelState.AddModelError(string.Empty, "Failed to login");
+            this.ModelState.AddModelError(string.Empty, "Login Falhou");
             return this.View(model);
         }
 
@@ -301,7 +301,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User not found.");
+                    this.ModelState.AddModelError(string.Empty, "Username não encontrado.");
                 }
             }
 
@@ -334,7 +334,7 @@ namespace WaterCompanyCet47.Web.Controllers
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User no found.");
+                    this.ModelState.AddModelError(string.Empty, "Username não encontrado.");
                 }
             }
 

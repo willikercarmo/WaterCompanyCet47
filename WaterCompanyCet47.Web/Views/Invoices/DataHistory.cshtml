@@ -13,8 +13,8 @@
             <center><h2>Faturação</h2></center>
 
             @*<p>
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
-        </p>*@
+                    <a asp-action="Create" class="btn btn-primary">Create New</a>
+                </p>*@
 
             <h4>Consumos</h4>
             <hr />
@@ -52,41 +52,41 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        @if (this.User.IsInRole("Admin"))
-                        {
-                            <th>
-                                @Html.DisplayFor(modelItem => item.User.FullName)
-                            </th>
-                        }
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InvoiceDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Consumption.ForBegin)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Consumption.ForEnd)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Consumption.ConsumptionValue)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotalAmount)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            @if (this.User.IsInRole("Admin"))
+                            {
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.User.FullName)
+                                </th>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Equipment.WaterMetering)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InvoiceDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Consumption.ForBegin)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Consumption.ForEnd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Consumption.ConsumptionValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalAmount)
+                            </td>
+                            <td>
+                                <a asp-action="Invoice" asp-route-id="@InvoiceSecurity.EncryptString(item.Id.ToString());" title="Ver Fatura" target="_blank" class="btn btn-warning fas fa-file-invoice-dollar"></a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </section>
+
+   
 
 </main><!-- End #main -->

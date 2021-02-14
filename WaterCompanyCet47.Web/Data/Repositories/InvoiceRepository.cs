@@ -21,7 +21,7 @@ namespace WaterCompanyCet47.Web.Data.Repositories
 
         public async Task<IQueryable<Invoice>> GetInvoiceAsync(string username)
         {
-
+            
             var user = await _userHelper.GetUserByIdAsync(username);
             if (user == null)
             {
@@ -44,6 +44,7 @@ namespace WaterCompanyCet47.Web.Data.Repositories
                 .Include(c => c.Consumption)
                 .Where(c => c.User == user)
                 .OrderByDescending(c => c.InvoiceDate);
+                                
         }
 
 

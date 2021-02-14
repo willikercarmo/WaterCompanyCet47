@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WaterCompanyCet47.Web.Data.Entities;
 
 namespace WaterCompanyCet47.Web.Models
 {
@@ -11,8 +12,9 @@ namespace WaterCompanyCet47.Web.Models
     {
         //User
         [Display(Name = "Consumidor")]
-        [Range(1, int.MaxValue, ErrorMessage = "Você precisa selecionar 1 consumidor.")] // o valor tem que estar entre o valor 1 até o máximo que quiser
-        public int UserId { get; set; }
+        //[Range(1, int.MaxValue, ErrorMessage = "Você precisa selecionar 1 consumidor.")] // o valor tem que estar entre o valor 1 até o máximo que quiser
+        [Required(ErrorMessage = "My Error Message")]
+        public string UserId { get; set; }
 
         //User
         [Display(Name = "Contador")]
@@ -39,6 +41,8 @@ namespace WaterCompanyCet47.Web.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime ConsumptionDate { get; set; }
 
+
+        public User User { get; set; }
 
         // lista de users
         public IEnumerable<SelectListItem> Users { get; set; }

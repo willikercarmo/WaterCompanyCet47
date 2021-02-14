@@ -16,7 +16,7 @@
                     <a asp-action="Create" class="btn btn-primary">Create New</a>
                 </p>*@
 
-            <h4>Consumos <a asp-action="AddConsumption"><i class="fas fa-plus-circle"></i></a></h4>
+            <h4>Consumos <a asp-action="AddConsumption" title="Adicionar Novo Consumo"><i class="fas fa-plus-circle"></i></a></h4>
             <hr />
 
             <table class="table">
@@ -75,16 +75,20 @@
                             <td>
                                 @if (item.InvoiceIssued == true)
                                 {
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fas fa-info-circle"></a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-outline-primary far fa-edit disabled"></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes" class="btn btn-outline-success fas fa-info-circle"></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-outline-danger fas fa-trash-alt disabled"></a>
+                                    <span><i class="fas fa-check"></i></span>
+
                                 }
                                 else
                                 {
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary far fa-edit"></a>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fas fa-info-circle"></a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fas fa-trash-alt"></a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-outline-primary far fa-edit"></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes" class="btn btn-outline-success fas fa-info-circle"></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-outline-danger fas fa-trash-alt"></a>
                                     @if (this.User.IsInRole("Admin"))
                                     {
-                                        <a asp-action="CalculateInvoice" asp-controller="Invoices" asp-route-id="@item.Id" class="btn btn-primary fas fa-calculator"></a>
+                                        <a asp-action="CalculateInvoice" asp-controller="Invoices" asp-route-id="@item.Id" title="Gerar Fatura" class="btn btn-outline-warning fas fa-calculator"></a>
                                     }
                                 }
 

@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using WaterCompanyCet47.Web.Data;
 using WaterCompanyCet47.Web.Data.Entities;
 using WaterCompanyCet47.Web.Data.Repositories;
 using WaterCompanyCet47.Web.Helpers;
 using WaterCompanyCet47.Web.Models;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using SelectPdf;
-using Microsoft.AspNetCore.Authorization;
+
 
 namespace WaterCompanyCet47.Web.Controllers
 {
@@ -24,6 +24,8 @@ namespace WaterCompanyCet47.Web.Controllers
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IConsumptionRepository _consumptionRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
+
+
 
         public InvoicesController(
             DataContext dataContext,
@@ -37,6 +39,7 @@ namespace WaterCompanyCet47.Web.Controllers
             _invoiceRepository = invoiceRepository;
             _consumptionRepository = consumptionRepository;
             _hostingEnvironment = hostingEnvironment;
+
         }
 
         public async Task<IActionResult> Index()
@@ -56,10 +59,18 @@ namespace WaterCompanyCet47.Web.Controllers
 
         public async Task<IActionResult> DataHistory(string id)
         {
-         
-            var model = await _invoiceRepository.GetInvoiceAsync(id);
-
-            return View(model);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+            {
+                var model = await _invoiceRepository.GetInvoiceAsync(id);
+                return View(model);
+            }
+            else
+            {
+                var model = await _invoiceRepository.GetInvoiceAsync(user.Id);
+                return View(model);
+            }
+            
         }
 
         public async Task<IActionResult> CalculateInvoice(int? id)
@@ -129,21 +140,29 @@ namespace WaterCompanyCet47.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult GeneratePdf(string html)
-        {
-            html = html.Replace("StrTag", "<").Replace("EndTag", ">");
 
-            HtmlToPdf htmlToPdf = new HtmlToPdf();
-            PdfDocument pdfDocument = htmlToPdf.ConvertHtmlString(html);
-            byte[] pdf = pdfDocument.Save();
-            pdfDocument.Close();
-
-            return File(pdf, "application/pdf", "Fatura.pdf");
-        }
 
         private bool InvoiceExists(int id)
         {
             return _dataContext.Invoices.Any(e => e.Consumption.Id == id);
         }
+
+
+        public async Task<IActionResult> Invoice(string id)
+        {
+            id = id.Replace(id.Substring(id.IndexOf(";")), "");
+
+            var idDesenc = InvoiceSecurity.DecryptString(id);
+                   
+            var model = await _dataContext.Invoices
+                .Include(u => u.User)
+                .Include(e => e.Equipment)
+                .Include(c => c.Consumption)
+                .Where(u => u.Id == Convert.ToInt32(idDesenc))
+                .FirstOrDefaultAsync();
+
+            return View(model);
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace WaterCompanyCet47.Web
 {
+    using DinkToPdf;
+    using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -13,6 +15,7 @@
     using WaterCompanyCet47.Web.Data.Repositories;
     using WaterCompanyCet47.Web.Helpers;
 
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -25,6 +28,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
@@ -59,6 +63,7 @@
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +76,8 @@
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePages();
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
                 app.UseHsts();
             }
 

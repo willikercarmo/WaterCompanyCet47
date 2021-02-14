@@ -35,6 +35,8 @@ namespace WaterCompanyCet47.Web.Helpers
 
         IEnumerable<SelectListItem> GetComboUsers();
 
+        IEnumerable<SelectListItem> GetComboUsers(string email);
+
         IQueryable<User> GetAll();
 
         Task<User> GetByIdAsync(string id);

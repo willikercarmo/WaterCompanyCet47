@@ -1,0 +1,135 @@
+﻿@model WaterCompanyCet47.Web.Data.Entities.Invoice
+
+
+@{
+    ViewData["Title"] = "Invoice";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Fatura</title>
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <meta charset="utf-8">
+</head>
+<body>
+    <div id="invoiceholder">
+
+        <div id="headerimage"></div>
+        <div id="invoice" class="effect2">
+
+            <div id="invoice-top">
+                <div class="logo"></div>
+                <div class="info">
+                    <h2><i class="fas fa-tint"></i> WaterCompany</h2>
+                    <p>
+                        geral@watercompany.com </br>
+                        289-335-6503
+                    </p>
+                </div><!--End Info-->
+                <div class="title">
+                    <h1>Fatura #@Model.Id</h1>
+                    <p>
+                        Data da Emissão: @Model.InvoiceDate</br>
+                        Pagamento: Até o dia primeiro dia útil do mês
+                    </p>
+                </div><!--End Title-->
+            </div><!--End InvoiceTop-->
+
+
+
+            <div id="invoice-mid">
+
+                <div class="clientlogo"></div>
+                <div class="info">
+                    <h2>@Model.User.FullName</h2>
+                    <p>
+                        @Model.User.Email</br>
+                        @Model.User.PhoneNumber</br>
+                        @Model.Equipment.Address</br>
+                </div>
+
+                <div id="project">
+                    <h2>Período de Faturação</h2>
+                    <p>
+                        Data de Início: @Model.Consumption.ForBegin</br>
+                        Data de Fim: @Model.Consumption.ForEnd
+                    </p>
+                </div>
+
+            </div><!--End Invoice Mid-->
+
+            <div id="invoice-bot">
+
+                <div id="table">
+                    <table>
+                        <tr class="tabletitle">
+                            <td class="item" style="width: 150px;"><h2>Contador</h2></td>
+                            <td class="item" style="width: 80px;"><h2>Escalão</h2></td>
+                            <td class="Rate" style="width: 250px;"><h2>Consumo em m³</h2></td>
+                            <td class="subtotal"><h2>Total</h2></td>
+                        </tr>
+
+                        <tr class="service">
+                            <td class="tableitem"><p class="itemtext">@Model.Equipment.WaterMetering</p></td>
+                            @if (Model.Consumption.ConsumptionValue <= 5)
+                            {
+                                <td class="tableitem" style="width: 50px;"><p class="itemtext">1</p></td>
+                            }
+                            @if (Model.Consumption.ConsumptionValue > 5 && Model.Consumption.ConsumptionValue <= 15)
+                            {
+                                <td class="tableitem" style="width: 50px;"><p class="itemtext">2</p></td>
+                            }
+                            @if (Model.Consumption.ConsumptionValue > 15 && Model.Consumption.ConsumptionValue <= 25)
+                            {
+                                <td class="tableitem" style="width: 50px;"><p class="itemtext">3</p></td>
+                            }
+                            else
+                            {
+                                <td class="tableitem"><p class="itemtext" >4</p></td>
+                            }
+
+                            <td class="tableitem"><p class="itemtext">@Model.Consumption.ConsumptionValue</p></td>
+                            <td class="tableitem"><p class="itemtext">@Model.TotalAmount €</p></td>
+                        </tr>
+
+
+
+
+                        @*<tr class="tabletitle">
+                            <td></td>
+                            <td></td>
+                            <td class="Rate"><h2>Total</h2></td>
+                            <td class="payment"><h2>$3,644.25</h2></td>
+                        </tr>*@
+
+                    </table>
+                </div><!--End Table-->
+
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="QRZ7QTM9XRPJ6">
+                    <input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Multibanco.svg/800px-Multibanco.svg.png" style="width: 50px; height: 50px; margin-right: 430px" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                </form>
+
+
+                <div id="legalcopy">
+                    <p class="legal">
+                        <strong>Pagamento Multibanco</strong>
+                        <br />
+                        Entidade: 1234
+                        <br />
+                        Referência:987654321
+                        <br />
+                        Total a pagar: @Model.TotalAmount €
+                    </p>
+                </div>
+
+            </div><!--End InvoiceBot-->
+        </div><!--End Invoice-->
+    </div><!-- End Invoice Holder-->
+</body>
+</html>
+

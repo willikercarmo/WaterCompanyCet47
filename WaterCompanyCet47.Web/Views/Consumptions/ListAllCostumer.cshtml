@@ -1,32 +1,16 @@
 ﻿@model IEnumerable<WaterCompanyCet47.Web.Data.Entities.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ListAllCustomer";
 }
 
 <main id="main">
-
-    <!-- ======= Breadcrumbs Section ======= -->
-    @*<section class="breadcrumbs">
-        <div class="container">
-
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Conta</h2>
-                <ol>
-                    <li><a href="index.html">Home</a></li>
-                    <li>Inner Page</li>
-                </ol>
-            </div>
-
-        </div>
-    </section>*@
-    <!-- End Breadcrumbs Section -->
 
     <section class="inner-page">
         <div class="container">
 
             <br /><br />
-            <center><h2>Listar Clientes</h2></center>
+            <center><h2>Faturação</h2></center>
 
             <h4>Clientes</h4>
             <hr />
@@ -53,15 +37,9 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @if (this.User.IsInRole("Admin"))
-                                {
-                                    <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-outline-primary far fa-edit"></a>
-                                }
-                                <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes" class="btn btn-outline-success fas fa-info-circle"></a>
-                                @if (this.User.IsInRole("Admin"))
-                                {
-                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-outline-danger fas fa-trash-alt"></a>
-                                }
+
+                                <a asp-action="AddConsumption" asp-route-id="@item.Id" title="Adicionar Novo Consumo"><i class="fas fa-plus-circle"></i></a>
+
                             </td>
                         </tr>
                     }
