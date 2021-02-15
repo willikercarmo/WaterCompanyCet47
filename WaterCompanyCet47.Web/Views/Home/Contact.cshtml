@@ -1,17 +1,85 @@
-﻿@{
+﻿@model SendMail
+
+@{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<main id="main">
+    <br /><br />
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    <center><h3>@ViewBag.Message</h3></center>
+                </div>
+            }
+
+            <div class="section-title" data-aos="fade-up">
+                <h2>Contato</h2>
+                <p>Contate-nos</p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-4" data-aos="fade-right" data-aos-delay="100">
+                    <div class="info">
+                        <div class="address">
+                            <i class="icofont-google-map"></i>
+                            <h4>Localização:</h4>
+                            <p>Rua Jau, 1300-312 Lisboa</p>
+                        </div>
+
+                        <div class="email">
+                            <i class="icofont-envelope"></i>
+                            <h4>Email:</h4>
+                            <p>geral@watercompany.com</p>
+                        </div>
+
+                        <div class="phone">
+                            <i class="icofont-phone"></i>
+                            <h4>Apoio ao Cliente:</h4>
+                            <p>+351 21 496 7700</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-8 mt-5 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
+
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input type="text" asp-for="@Model.Name" name="name" class="form-control" id="name" placeholder="Seu nome" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <div class="validate"><span asp-validation-for="@Model.Name"></span></div>
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="email" asp-for="@Model.Email" class="form-control" name="email" id="email" placeholder="Seu Email" data-rule="email" data-msg="Please enter a valid email" />
+                                <div class="validate"><span asp-validation-for="@Model.Email"></span></div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="text" asp-for="@Model.Subject" class="form-control" name="subject" id="subject" placeholder="Assunto" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                            <div class="validate"><span asp-validation-for="@Model.Subject"></span></div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" asp-for="@Model.Message" name="message" rows="5" id="tb_corpo" data-rule="required" data-msg="Please write something for us" placeholder="Mensagem"></textarea>
+                            <div class="validate"><span asp-validation-for="@Model.Message"></span></div>
+                        </div>
+
+                        <br />
+                        <div class="text-center"><button class="btn btn-outline-info" type="submit">Enviar Mensagem</button></div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Contact Section -->
+
+</main><!-- End #main -->

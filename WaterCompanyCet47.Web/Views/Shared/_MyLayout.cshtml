@@ -56,9 +56,10 @@
             <nav class="nav-menu d-none d-lg-block">
                 <ul>
                     <li class="active"><a asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
-                    @*<li><a href="#about">About</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">Sobre Nós</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Service">Serviços</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contato</a></li>
+                    @*<li><a href="#gallery">Gallery</a></li>
                         <li><a href="#team">Team</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li class="drop-down">
@@ -80,7 +81,7 @@
                                 <li><a href="#">Drop Down 5</a></li>
                             </ul>
                         </li>
-                        <li><a href="#contact">Contact</a></li>*@
+                    *@
 
 
                     @if (this.User.IsInRole("Admin"))
@@ -237,11 +238,6 @@
             <div class="credits">
                 Trabalho elaborado apenas para fins académicos
                 <br />
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
             </div>
         </div>
     </footer><!-- End Footer -->

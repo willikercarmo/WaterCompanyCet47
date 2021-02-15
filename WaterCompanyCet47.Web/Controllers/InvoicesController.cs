@@ -142,18 +142,13 @@ namespace WaterCompanyCet47.Web.Controllers
 
 
 
-        private bool InvoiceExists(int id)
-        {
-            return _dataContext.Invoices.Any(e => e.Consumption.Id == id);
-        }
-
 
         public async Task<IActionResult> Invoice(string id)
         {
             id = id.Replace(id.Substring(id.IndexOf(";")), "");
 
             var idDesenc = InvoiceSecurity.DecryptString(id);
-                   
+
             var model = await _dataContext.Invoices
                 .Include(u => u.User)
                 .Include(e => e.Equipment)
@@ -163,6 +158,14 @@ namespace WaterCompanyCet47.Web.Controllers
 
             return View(model);
         }
+
+
+
+        private bool InvoiceExists(int id)
+        {
+            return _dataContext.Invoices.Any(e => e.Consumption.Id == id);
+        }
+
 
     }
 }
