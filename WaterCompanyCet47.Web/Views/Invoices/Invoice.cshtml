@@ -86,9 +86,9 @@
                             {
                                 <td class="tableitem" style="width: 50px;"><p class="itemtext">3</p></td>
                             }
-                            else
+                            @if (Model.Consumption.ConsumptionValue > 25)
                             {
-                                <td class="tableitem"><p class="itemtext" >4</p></td>
+                                <td class="tableitem"><p class="itemtext">4</p></td>
                             }
 
                             <td class="tableitem"><p class="itemtext">@Model.Consumption.ConsumptionValue</p></td>

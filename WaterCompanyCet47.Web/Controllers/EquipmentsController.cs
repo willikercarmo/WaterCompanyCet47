@@ -77,8 +77,9 @@ namespace WaterCompanyCet47.Web.Controllers
 
                 await _equipmentRepository.AddEquipmentToEquipAsync(model, this.User.Identity.Name);
 
+                ViewBag.Message = "Consumidor criado";
 
-                return this.RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
 
             return this.View(model);

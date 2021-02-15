@@ -1,66 +1,74 @@
 ﻿@model WaterCompanyCet47.Web.Models.RegisterNewUserViewModel
 @{
     ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_Login.cshtml";
 }
 
 
-<!-- Sign up form -->
-<section class="signup">
-    <div class="container">
-        <div class="signup-content">
-            <div class="signup-form">
-                <h2 class="form-title">Registar cliente</h2>
-                <form method="POST" class="register-form">
-                    <div asp-validation-summary="ModelOnly"></div>
-                    <div class="form-group">
-                        <label asp-for="FirstName"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input asp-for="FirstName" placeholder="Primeiro Nome" />
-                        <span asp-validation-for="FirstName" class="text-warning"></span>
+
+<main id="main">
+
+    <section class="inner-page">
+        <div class="container">
+
+            <br /><br />
+            <center><h2>Registar Consumidor</h2></center>
+
+            <div>
+                <h4>Novo Consumidor</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Register">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <b><label asp-for="FirstName" class="control-label"></label></b>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <b><label asp-for="LastName" class="control-label"></label></b>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <b><label asp-for="Nif" class="control-label"></label></b>
+                                <input asp-for="Nif" class="form-control" />
+                                <span asp-validation-for="Nif" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <b><label asp-for="PhoneNumber" class="control-label"></label></b>
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <b><label class="control-label">Username</label></b>
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <b><label class="control-label">Palavra-Passe</label></b>
+                                <input asp-for="Password" type="password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <b> <label class="control-label">Confirmar Palavra-Passe</label></b>
+                                <input asp-for="Confirm" type="password" class="form-control" />
+                                <span asp-validation-for="Confirm" class="text-danger"></span>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <b> <input type="submit" value="Criar" class="btn btn-primary" /></b>
+                                <a asp-action="Index" class="btn btn-success">Voltar</a>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="LastName"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input asp-for="LastName" placeholder="Apelido" />
-                        <span asp-validation-for="LastName" class="text-warning"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Nif"><i class="zmdi zmdi-accounts-list-alt"></i></label>
-                        <input asp-for="Nif" placeholder="NIF" />
-                        <span asp-validation-for="Nif" class="text-warning"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PhoneNumber"><i class="zmdi zmdi-smartphone-iphone"></i></label>
-                        <input asp-for="PhoneNumber" placeholder="Telemóvel" />
-                        <span asp-validation-for="PhoneNumber" class="text-warning"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="UserName"><i class="zmdi zmdi-email"></i></label>
-                        <input asp-for="UserName" placeholder="Username" />
-                        <span asp-validation-for="UserName" class="text-warning"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Password"><i class="zmdi zmdi-lock"></i></label>
-                        <input asp-for="Password" type="password" placeholder="Palavra-Passe" />
-                        <span asp-validation-for="Password" class="text-warning"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Confirm"><i class="zmdi zmdi-lock-outline"></i></label>
-                        <input asp-for="Confirm" type="password" placeholder="Confirmar Palavra-Passe" />
-                        <span asp-validation-for="Confirm" class="text-warning"></span>
-                    </div>
-                    <div class="form-group form-button">
-                        <input type="submit" class="form-submit" value="Registar" />
-                        <a asp-action="Index" class="form-submit">Voltar</a>
-                    </div>
-                </form>
-            </div>
-            <div class="signup-image">
-                <figure><img src="~/login/images/water_ball.gif" alt="sing up image"></figure>
-                <img src="~/login/images/logo.png" />
+                </div>
+
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+</main><!-- End #main -->
 
 @if (ViewBag.Message != null)
 {

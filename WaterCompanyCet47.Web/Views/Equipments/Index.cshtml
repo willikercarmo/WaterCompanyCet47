@@ -4,59 +4,65 @@
     ViewData["Title"] = "Index";
 }
 
+<main>
+    <section class="inner-page">
+        <div class="container">
+            <br /><br />
+            <center><h2>Listagem de Contadores</h2></center>
 
-<section class="inner-page">
-    <div class="container">
-        <br /><br />
-        <center><h2>Listagem de Contadores</h2></center>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.WaterMetering)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Installation)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Address)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.User.FullName)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.WaterMetering)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Installation)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Address)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.FullName)
-                        </td>
-                        <td align="center">
-                            <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-outline-primary far fa-edit"></a>
-                            <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes" class="btn btn-outline-success fas fa-info-circle"></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-outline-danger fas fa-trash-alt"></a>
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.WaterMetering)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Installation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.User.FullName)
+                        </th>
+                        <th></th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WaterMetering)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Installation)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.FullName)
+                            </td>
+                            <td align="center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-outline-primary far fa-edit"></a>
+                                <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes" class="btn btn-outline-success fas fa-info-circle"></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-outline-danger fas fa-trash-alt"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+                window.onload = function () {
+                    alert("@ViewBag.Message");
                 }
-            </tbody>
-        </table>
-    </div>
-</section>
-
-  </main><!-- End #main -->
-
-
-
+    </script>
+}

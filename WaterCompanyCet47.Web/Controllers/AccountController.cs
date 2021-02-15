@@ -164,7 +164,7 @@ namespace WaterCompanyCet47.Web.Controllers
 
         // POST: Account/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -265,49 +265,6 @@ namespace WaterCompanyCet47.Web.Controllers
             return this.View(model);
         }
 
-        public async Task<IActionResult> ChangeUser()
-        {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-            var model = new ChangeUserViewModel();
-
-            if (user != null)
-            {
-                model.FirstName = user.FirstName;
-                model.LastName = user.LastName;
-            }
-
-            return this.View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                if (user != null)
-                {
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    var response = await _userHelper.UpdateUserAsync(user);
-                    if (response.Succeeded)
-                    {
-                        this.ViewBag.UserMessage = "User update.";
-                    }
-                    else
-                    {
-                        this.ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
-                    }
-                }
-                else
-                {
-                    this.ModelState.AddModelError(string.Empty, "Username não encontrado.");
-                }
-            }
-
-            return this.View(model);
-        }
-
         public IActionResult ChangePassword()
         {
             return this.View();
@@ -325,7 +282,7 @@ namespace WaterCompanyCet47.Web.Controllers
                     var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        return this.RedirectToAction("ChangeUser");
+                        return this.RedirectToAction("Profile");
                     }
                     else
                     {
