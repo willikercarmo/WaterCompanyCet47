@@ -30,12 +30,14 @@ namespace WaterCompanyCet47.Web.Controllers
         }
 
         //  Account/Index
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(_userHelper.GetAll().OrderBy(u => u.FullName));
         }
 
         // GET: Account/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -55,6 +57,7 @@ namespace WaterCompanyCet47.Web.Controllers
 
 
         // GET: Account/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Profile()
         {
 
@@ -64,7 +67,7 @@ namespace WaterCompanyCet47.Web.Controllers
             {
                 return NotFound();
             }
-                       
+
             return View(user);
         }
 
@@ -102,6 +105,7 @@ namespace WaterCompanyCet47.Web.Controllers
         }
 
         // POST: Account/Edit
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(User user)
@@ -162,6 +166,7 @@ namespace WaterCompanyCet47.Web.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Account/Delete/5
         [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]

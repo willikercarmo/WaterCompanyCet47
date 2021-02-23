@@ -46,15 +46,6 @@ namespace WaterCompanyCet47.Web.Data.Entities
         public bool InvoiceIssued { get; set; }
 
 
-        ////Valor a Pagar
-        ////TODO: Fazer um AddMigrations
-        //[Display(Name = "Valor a Pagar")]
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //public decimal? Value { get; set; }
-
-        //public IEnumerable<ConsumptionDetail> Items { get; set; }
-
-        //public ConsumptionDetail Items { get; set; }
 
 
     }

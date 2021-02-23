@@ -19,7 +19,7 @@ namespace WaterCompanyCet47.Web.Data.Entities
 
         //Data do Registo
         [Display(Name = "Emissão da Fatura")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm tt}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime InvoiceDate { get; set; }
 
 

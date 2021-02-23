@@ -14,6 +14,7 @@ using WaterCompanyCet47.Web.Models;
 
 namespace WaterCompanyCet47.Web.Controllers
 {
+    [Authorize]
     public class EquipmentsController : Controller
     {
         private readonly IEquipmentRepository _equipmentRepository;
@@ -66,7 +67,6 @@ namespace WaterCompanyCet47.Web.Controllers
             };
 
             return View(model);
-
         }
 
         [HttpPost]
